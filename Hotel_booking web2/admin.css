@@ -1,0 +1,38 @@
+.admin-stats {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.rooms-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 8px;
+}
+.rooms-table th, .rooms-table td {
+  border: 1px solid #e2e8f0;
+  padding: 8px;
+  text-align: left;
+}
+.rooms-table input, .rooms-table select {
+  width: 100%;
+}
+
+#cleaning-list {
+  list-style: disc;
+  padding-left: 18px;
+}
+
+.btn.btn-secondary {
+  background: #2b6cb0;
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn.btn-secondary:hover {
+  background: #2c5282;
+}
+

@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Booking Receipt - InnoStay</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --secondary: #1e40af;
+      --success: #10b981;
+      --text: #1f2937;
+      --text-light: #6b7280;
+      --bg: #f9fafb;
+      --card-bg: #ffffff;
+      --border: #e5e7eb;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      line-height: 1.6;
+      color: var(--text);
+      background-color: var(--bg);
+      padding: 2rem 1rem;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .receipt-container {
+      background: var(--card-bg);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      width: 100%;
+      max-width: 900px;
+      overflow: hidden;
+      margin: 2rem auto;
+      position: relative;
+      border: 1px solid var(--border);
+    }
+    .receipt-header {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 2.5rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .header-pattern {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.1;
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    
+    .logo-container {
+      position: relative;
+      z-index: 1;
+      margin-bottom: 1.5rem;
+    }
+    
+    .logo {
+      height: 120px;
+      width: auto;
+      margin-bottom: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      background-color: white;
+      padding: 10px;
+      object-fit: contain;
+    }
+    
+    .receipt-header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .receipt-header p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.35rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      margin-top: 0.75rem;
+    }
+    
+    .status-confirmed {
+      background-color: rgba(255, 255, 255, 0.2);
+      color: white;
+      backdrop-filter: blur(5px);
+    }
+    .receipt-body {
+      padding: 2.5rem;
+    }
+    
+    .receipt-section {
+      margin-bottom: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .receipt-section:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+    
+    .receipt-section h2 {
+      color: var(--primary);
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .receipt-section h2 i {
+      font-size: 1.1em;
+      color: var(--primary);
+    }
+    
+    .receipt-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.75rem;
+      padding: 0.5rem 0;
+      border-bottom: 1px dashed var(--border);
+    }
+    
+    .receipt-row:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+    
+    .receipt-label {
+      font-weight: 500;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .receipt-label i {
+      color: var(--primary);
+      width: 20px;
+      text-align: center;
+    }
+    
+    .receipt-value {
+      font-weight: 400;
+      color: var(--text-light);
+      text-align: right;
+    }
+    
+    .receipt-total {
+      background-color: #f8fafc;
+      padding: 1.25rem;
+      border-radius: 10px;
+      margin-top: 1.5rem;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--success);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: 1px solid #e2e8f0;
+    }
+    
+    .receipt-footer {
+      background-color: #f8fafc;
+      padding: 1.5rem 2rem;
+      text-align: center;
+      border-top: 1px solid var(--border);
+    }
+    
+    .receipt-footer p {
+      color: var(--text-light);
+      margin-bottom: 1.25rem;
+      line-height: 1.6;
+    }
+    
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      border: none;
+      font-size: 0.95rem;
+      margin: 0 0.5rem;
+    }
+    
+    .btn-primary {
+      background-color: var(--primary);
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background-color: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+    }
+    
+    .btn-outline {
+      background-color: transparent;
+      border: 1px solid var(--primary);
+      color: var(--primary);
+    }
+    
+    .btn-outline:hover {
+      background-color: rgba(37, 99, 235, 0.05);
+      transform: translateY(-2px);
+    }
+    
+    .qr-code {
+      width: 120px;
+      height: 120px;
+      background-color: #f3f4f6;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 1.5rem auto;
+      overflow: hidden;
+    }
+    
+    .qr-code img {
+      max-width: 100%;
+      height: auto;
+    }
+    
+    .contact-info {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+    
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-light);
+      font-size: 0.9rem;
+    }
+    
+    .contact-item i {
+      color: var(--primary);
+    }
+    @media print {
+      .no-print {
+        display: none;
+      }
+      body {
+        padding: 0;
+      }
+      .receipt-container {
+        box-shadow: none;
+        padding: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="receipt-container">
+    <div class="receipt-header">
+      <div class="header-pattern"></div>
+      <div class="logo-container" style="display: flex; justify-content: center; width: 100%;">
+        <img src="./images/Innostay_logo-removebg-preview.png" alt="InnoStay Logo" class="logo" style="max-width: 200px; background-color: white; padding: 10px; border-radius: 8px;">
+      </div>
+      <h1>Booking Confirmation</h1>
+      <p>Your reservation has been successfully confirmed!</p>
+      <div class="status-badge status-confirmed">
+        <i class="fas fa-check-circle"></i>
+        <span>Confirmed</span>
+      </div>
+    </div>
+    
+    <div class="receipt-body" id="receipt-content">
+      <!-- QR Code for Easy Check-in -->
+      <div class="qr-code">
+        <img id="booking-qr" src="" alt="Booking QR Code" style="width: 100%; height: 100%; object-fit: contain;">
+      </div>
+      
+      <div class="receipt-section">
+        <h2><i class="fas fa-calendar-check"></i> Booking Details</h2>
+        <div class="receipt-row">
+          <span class="receipt-label">
+            <i class="fas fa-hashtag"></i>
+            <span>Booking ID:</span>
+          </span>
+          <span class="receipt-value" id="receipt-booking-id"></span>
+        </div>
+        <div class="receipt-row">
+          <span class="receipt-label">
+            <i class="fas fa-hotel"></i>
+            <span>Hotel:</span>
+          </span>
+          <span class="receipt-value" id="receipt-hotel">InnoStay Premium Hotel</span>
+        </div>
+        <div class="receipt-row">
+          <span class="receipt-label">
+            <i class="fas fa-door-open"></i>
+            <span>Room Type:</span>
+          </span>
+          <span class="receipt-value" id="receipt-room"></span>
+        </div>
+        <div class="receipt-row">
+          <span class="receipt-label">
+            <i class="fas fa-sign-in-alt"></i>
+            <span>Check-in:</span>
+          </span>
+          <span class="receipt-value" id="receipt-checkin"></span>
+        </div>
+        <div class="receipt-row">
+          <span class="receipt-label">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Check-out:</span>
+          </span>
+          <span class="receipt-value" id="receipt-checkout"></span>
+        </div>
+        <div class="receipt-row">
+          <span class="receipt-label">
+            <i class="fas fa-users"></i>
+            <span>Guests:</span>
+          </span>
+          <span class="receipt-value" id="receipt-guests"></span>
+        </div>
+      </div>
+      
+      <div class="receipt-section">
+        <h2><i class="fas fa-user-circle"></i> Guest Information</h2>
+        <div class="receipt-row">
+          <span class="receipt-label">
+            <i class="fas fa-user"></i>
+            <span>Name:</span>
+          </span>
+          <span class="receipt-value" id="receipt-guest-name"></span>
+        </div>
+        <div class="receipt-row">
+          <span class="receipt-label">
+            <i class="fas fa-envelope"></i>
+            <span>Email:</span>
+          </span>
+          <span class="receipt-value" id="receipt-email"></span>
+        </div>
+        <div class="receipt-row">
+          <span class="receipt-label">
+            <i class="fas fa-phone"></i>
+            <span>Phone:</span>
+          </span>
+          <span class="receipt-value" id="receipt-phone"></span>
+        </div>
+      </div>
+      
+      <div id="additional-guests-container" style="display: none;">
+          <div class="receipt-section">
+            <h2><i class="fas fa-users"></i> Additional Guests</h2>
+            <div id="additional-guests-list"></div>
+          </div>
+      </div>
+      
+      <div class="receipt-section">
+        <h2><i class="fas fa-receipt"></i> Payment Summary</h2>
+        <div class="receipt-row">
+          <span class="receipt-label">
+            <i class="fas fa-tag"></i>
+            <span>Room Rate (per night):</span>
+          </span>
+          <span class="receipt-value" id="receipt-rate"></span>
+        </div>
+        <div class="receipt-row">
+          <span class="receipt-label">
+            <i class="fas fa-moon"></i>
+            <span>Total Nights:</span>
+          </span>
+          <span class="receipt-value" id="receipt-nights"></span>
+        </div>
+        <div class="receipt-total">
+          <span>Total Amount:</span>
+          <span id="receipt-total"></span>
+        </div>
+      </div>
+      
+      <div class="receipt-section no-print">
+        <h2><i class="fas fa-info-circle"></i> Important Information</h2>
+        <div style="background-color: #f0f9ff; border-left: 4px solid var(--primary); padding: 1rem; border-radius: 0 8px 8px 0; margin-top: 1rem;">
+          <p style="color: var(--text); margin-bottom: 0.5rem;"><strong>Check-in Time:</strong> 3:00 PM</p>
+          <p style="color: var(--text); margin-bottom: 0.5rem;"><strong>Check-out Time:</strong> 11:00 AM</p>
+          <p style="color: var(--text); margin-bottom: 0;"><strong>Cancellation Policy:</strong> Free cancellation up to 48 hours before check-in</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="receipt-footer">
+      <p>Thank you for choosing InnoStay Premium Hotel! We look forward to welcoming you. For any inquiries or special requests, please don't hesitate to contact us.</p>
+      
+      <div class="contact-info">
+        <div class="contact-item">
+          <i class="fas fa-phone"></i>
+          <span>+917709903710</span>
+        </div>
+        <div class="contact-item">
+          <i class="fas fa-envelope"></i>
+          <span>info@innostay.com</span>
+        </div>
+        <div class="contact-item">
+          <i class="fas fa-map-marker-alt"></i>
+          <span>Drushya Digital Santnagar Shirdi</span>
+        </div>
+      </div>
+      
+      <div style="margin-top: 1.5rem;">
+        <button onclick="window.print()" class="btn btn-primary">
+          <i class="fas fa-print"></i> Print Receipt
+        </button>
+        <a href="bookings.html" class="btn btn-outline no-print">
+          <i class="fas fa-list"></i> View All Bookings
+        </a>
+      </div>
+      
+      <p style="margin-top: 1.5rem; font-size: 0.85rem; color: var(--text-light);">
+        This is an automated confirmation. Please keep this receipt for your records.
+      </p>
+    </div>
+  </div>
+
+  <script>
+    const API_BASE = ['localhost', '127.0.0.1'].includes(window.location.hostname) && window.location.port === '5500' ? 'http://localhost:4001' : window.location.origin;
+
+    // Generate a random booking ID if not provided
+    function generateBookingId() {
+      const prefix = 'INNO';
+      const randomNum = Math.floor(10000 + Math.random() * 90000);
+      return `${prefix}${randomNum}`;
+    }
+
+    // Format date to a more readable format
+    function formatDateDisplay(dateString) {
+      if (!dateString) return 'N/A';
+      const options = { 
+        weekday: 'long', 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      };
+      return new Date(dateString).toLocaleDateString(undefined, options);
+    }
+
+    // Parse URL parameters with fallbacks
+    function getUrlParams() {
+      console.log('Getting URL parameters...');
+      const params = new URLSearchParams(window.location.search);
+      console.log('Raw URL parameters:', Object.fromEntries(params.entries()));
+      
+      const now = new Date();
+      const tomorrow = new Date(now);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      
+      // Format dates for display
+      const formatDateForInput = (date) => {
+        return date.toISOString().split('T')[0];
+      };
+      
+      // Get room rate and total from URL or calculate them
+      const roomRateParam = params.get('rate') || '0';
+      const nightsParam = params.get('nights') || '1';
+      const totalParam = params.get('total');
+      
+      // Parse values with better error handling
+      let roomRate = 0;
+      let nights = 1;
+      let total = 0;
+      
+      try {
+        roomRate = parseFloat(roomRateParam);
+        if (isNaN(roomRate)) {
+          console.warn('Invalid room rate in URL, defaulting to 0');
+          roomRate = 0;
+        }
+        
+        nights = parseInt(nightsParam);
+        if (isNaN(nights) || nights < 1) {
+          console.warn('Invalid nights in URL, defaulting to 1');
+          nights = 1;
+        }
+        
+        if (totalParam) {
+          total = parseFloat(totalParam);
+          if (isNaN(total)) {
+            console.warn('Invalid total in URL, calculating from rate and nights');
+            total = roomRate * nights;
+          }
+        } else {
+          total = roomRate * nights;
+          console.log('No total in URL, calculated total as:', total);
+        }
+      } catch (error) {
+        console.error('Error parsing URL parameters:', error);
+        // Fallback values
+        roomRate = 0;
+        nights = 1;
+        total = 0;
+      }
+      
+      const result = {
+        bookingId: params.get('id') || generateBookingId(),
+        roomName: params.get('room') || 'Deluxe Room',
+        checkIn: params.get('checkIn') || formatDateForInput(now),
+        checkOut: params.get('checkOut') || formatDateForInput(tomorrow),
+        guests: params.get('guests') || '2 Adults',
+        guestName: params.get('name') || 'Guest User',
+        email: params.get('email') || 'guest@example.com',
+        phone: params.get('phone') || '+1 (555) 000-0000',
+        roomRate: roomRate,
+        totalPrice: total,
+        nights: nights,
+        status: params.get('status') || 'confirmed'
+      };
+      
+      console.log('Processed URL parameters:', result);
+      return result;
+    }
+
+    // Format date for display
+    function formatDate(dateString) {
+      if (!dateString) return 'N/A';
+      const options = { 
+        weekday: 'short', 
+        year: 'numeric', 
+        month: 'short', 
+        day: 'numeric' 
+      };
+      return new Date(dateString).toLocaleDateString(undefined, options);
+    }
+
+    // Calculate number of nights
+    function calculateNights(checkIn, checkOut) {
+      if (!checkIn || !checkOut) return 0;
+      const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+      const firstDate = new Date(checkIn);
+      const secondDate = new Date(checkOut);
+      const nights = Math.round(Math.abs((firstDate - secondDate) / oneDay));
+      return nights > 0 ? nights : 1; // Ensure at least 1 night
+    }
+
+    // Format currency in Indian Rupees (₹)
+    function formatCurrency(amount) {
+      console.log('Formatting currency for amount:', amount);
+      if (amount === null || amount === undefined || amount === '') return '₹0.00';
+      
+      // Convert to string and clean it
+      const amountStr = amount.toString().trim();
+      
+      // Remove any existing currency symbols and commas, then parse as float
+      const numericValue = parseFloat(amountStr.replace(/[^0-9.-]+/g, ''));
+      
+      console.log('Numeric value after parsing:', numericValue);
+      
+      if (isNaN(numericValue) || !isFinite(numericValue)) {
+        console.warn('Invalid amount provided to formatCurrency:', amount);
+        return '₹0.00';
+      }
+      
+      // Format as Indian Rupees with proper formatting
+      const formatted = '₹' + numericValue.toLocaleString('en-IN', {
+        maximumFractionDigits: 2,
+        minimumFractionDigits: 2
+      });
+      
+      console.log('Formatted currency:', formatted);
+      return formatted;
+    }
+    
+    // Format the total amount with calculation
+    function formatTotalAmount(rate, nights) {
+      if (!rate || !nights) return formatCurrency(0);
+      const rateValue = parseFloat(rate.toString().replace(/[^0-9.-]+/g,""));
+      const total = rateValue * nights;
+      return formatCurrency(total);
+    }
+
+    // Populate receipt
+    function renderReceipt(data) {
+      console.log('Rendering receipt with data:', data);
+      
+      // Set booking details
+      document.getElementById('receipt-booking-id').textContent = data.bookingId || 'N/A';
+      
+      // Set QR Code
+      const qrCodeImg = document.getElementById('booking-qr');
+      if (qrCodeImg) {
+          qrCodeImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${data.bookingId || 'INNOSTAY'}`;
+      }
+
+      document.getElementById('receipt-room').textContent = data.roomName || 'N/A';
+      document.getElementById('receipt-checkin').textContent = formatDateDisplay(data.checkIn);
+      document.getElementById('receipt-checkout').textContent = formatDateDisplay(data.checkOut);
+      document.getElementById('receipt-guests').textContent = data.guests || 'N/A';
+      
+      // Set guest information
+      document.getElementById('receipt-guest-name').textContent = data.guestName || 'N/A';
+      document.getElementById('receipt-email').textContent = data.email || 'N/A';
+      document.getElementById('receipt-phone').textContent = data.phone || 'N/A';
+      
+      // Format and set pricing information
+      const nights = data.nights || calculateNights(data.checkIn, data.checkOut);
+      console.log('Nights calculated:', nights);
+      
+      // Parse room rate, handling different possible formats
+      let roomRate = 0;
+      if (data.roomRate) {
+        if (typeof data.roomRate === 'string') {
+          // Remove any non-numeric characters except decimal point
+          roomRate = parseFloat(data.roomRate.replace(/[^0-9.]/g, ''));
+        } else {
+          roomRate = parseFloat(data.roomRate);
+        }
+      }
+      console.log('Parsed room rate:', roomRate);
+      
+      // Calculate total amount
+      let totalAmount = 0;
+      if (data.totalPrice) {
+        if (typeof data.totalPrice === 'string') {
+          totalAmount = parseFloat(data.totalPrice.replace(/[^0-9.]/g, ''));
+        } else {
+          totalAmount = parseFloat(data.totalPrice);
+        }
+      } else {
+        totalAmount = roomRate * nights;
+      }
+      console.log('Total amount calculated:', totalAmount);
+      
+      // Update the receipt with the calculated values
+      const formattedRate = formatCurrency(roomRate);
+      const formattedTotal = formatCurrency(totalAmount);
+      
+      console.log('Formatted rate:', formattedRate);
+      console.log('Formatted total:', formattedTotal);
+      
+      document.getElementById('receipt-rate').textContent = formattedRate;
+      document.getElementById('receipt-nights').textContent = `${nights} night${nights !== 1 ? 's' : ''}`;
+      document.getElementById('receipt-total').textContent = formattedTotal;
+      
+      // Update status badge if needed
+      if (data.status) {
+        const statusBadge = document.querySelector('.status-badge');
+        if (statusBadge) {
+          statusBadge.className = `status-badge status-${data.status}`;
+          const statusText = data.status.charAt(0).toUpperCase() + data.status.slice(1);
+          statusBadge.innerHTML = `<i class="fas fa-${getStatusIcon(data.status)}"></i><span>${statusText}</span>`;
+        }
+      }
+      // Render Additional Guests
+      const guestsContainer = document.getElementById('additional-guests-container');
+      const guestsList = document.getElementById('additional-guests-list');
+      
+      if (data.customers && data.customers.length > 0) {
+          guestsContainer.style.display = 'block';
+          guestsList.innerHTML = data.customers.map((guest, index) => `
+              <div class="receipt-row">
+                  <span class="receipt-label">
+                      <i class="fas fa-user-plus"></i>
+                      <span>Guest ${index + 1}:</span>
+                  </span>
+                  <span class="receipt-value">
+                      ${guest.name} (${guest.age} yrs, ${guest.relation})
+                  </span>
+              </div>
+          `).join('');
+      } else {
+          guestsContainer.style.display = 'none';
+      }
+    }
+    
+    // Helper function to get appropriate icon based on status
+    function getStatusIcon(status) {
+      const statusIcons = {
+        'confirmed': 'check-circle',
+        'pending': 'clock',
+        'cancelled': 'times-circle',
+        'completed': 'check-double'
+      };
+      return statusIcons[status] || 'info-circle';
+    }
+
+    // Initialize the page with enhanced functionality
+    document.addEventListener('DOMContentLoaded', async () => {
+      console.log('DOM fully loaded, initializing receipt...');
+      
+      try {
+        // Get URL parameters
+        console.log('Fetching URL parameters...');
+        const params = getUrlParams();
+        console.log('Initial parameters:', params);
+        
+        // Check if we need to fetch booking details
+        if (params.bookingId && params.bookingId !== 'undefined' && params.bookingId !== 'N/A') {
+          console.log('Booking ID found, checking for API fetch...');
+          
+          // This is where you would typically fetch booking details from your API
+          // For now, we'll use the URL parameters directly
+          console.log('Rendering receipt with URL parameters...');
+          renderReceipt(params);
+          
+          // Fetch booking details from API
+          try {
+            console.log('Attempting to fetch booking details from API...');
+            const token = localStorage.getItem('token') || (JSON.parse(localStorage.getItem('currentUser') || '{}').token);
+            
+            if (token) {
+                const res = await fetch(`${API_BASE}/api/bookings/${params.bookingId}`, {
+                  headers: { 'Authorization': `Bearer ${token}` }
+                });
+    
+                if (res.ok) {
+                    const data = await res.json();
+                    const booking = data.booking || data;
+                    
+                    console.log('Received booking data from API:', booking);
+                    
+                    // Map API response to view model
+                    const viewModel = {
+                      bookingId: booking._id,
+                      roomName: booking.roomId ? booking.roomId.name : 'Unknown Room',
+                      checkIn: booking.checkIn,
+                      checkOut: booking.checkOut,
+                      guests: booking.guests,
+                      guestName: booking.contact ? (booking.contact.fullName || booking.contact.name) : 'N/A',
+                      email: booking.contact ? booking.contact.email : 'N/A',
+                      phone: booking.contact ? booking.contact.phone : 'N/A',
+                      roomRate: booking.roomId ? booking.roomId.pricePerNight : 0,
+                      totalPrice: booking.totalPrice,
+                      status: booking.status || 'confirmed',
+                      customers: booking.customers || []
+                    };
+                    
+                    console.log('Mapped view model:', viewModel);
+                    renderReceipt(viewModel);
+                } else {
+                    console.warn('Failed to fetch booking from API, using URL params');
+                    renderReceipt(params);
+                }
+            } else {
+                console.warn('No token found, using URL params');
+                renderReceipt(params);
+            }
+          } catch (error) {
+            console.error('Error fetching booking details:', error);
+            // Fallback to URL parameters if API call fails
+            console.log('Falling back to URL parameters due to error');
+            renderReceipt(params);
+          }
+        } else {
+          // Use URL params if provided
+          console.log('No booking ID found, using URL parameters directly');
+          renderReceipt(params);
+        }
+        
+        // Add animation to receipt container
+        const receiptContainer = document.querySelector('.receipt-container');
+        if (receiptContainer) {
+          receiptContainer.style.opacity = '0';
+          receiptContainer.style.transform = 'translateY(20px)';
+          receiptContainer.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+          
+          // Trigger reflow
+          void receiptContainer.offsetWidth;
+          
+          // Animate in
+          receiptContainer.style.opacity = '1';
+          receiptContainer.style.transform = 'translateY(0)';
+        }
+        
+        // Add print button functionality
+        const printButton = document.querySelector('.btn-print');
+        if (printButton) {
+          printButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.print();
+          });
+        }
+        
+        // Add smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+          anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+              target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+              });
+            }
+          });
+        });
+        
+      } catch (error) {
+        console.error('Error initializing receipt:', error);
+        // Show error message to user
+        const receiptContent = document.getElementById('receipt-content');
+        if (receiptContent) {
+          receiptContent.innerHTML = `
+            <div style="text-align: center; padding: 2rem; color: #dc2626;">
+              <i class="fas fa-exclamation-triangle" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+              <h2>Error Loading Receipt</h2>
+              <p>We encountered an error while loading your booking details. Please try again later or contact support.</p>
+              <button onclick="window.location.href='index.html'" class="btn btn-primary" style="margin-top: 1rem;">
+                <i class="fas fa-home"></i> Return to Home
+              </button>
+            </div>
+          `;
+        }
+      }
+    });
+  </script>
+</body>
+</html>

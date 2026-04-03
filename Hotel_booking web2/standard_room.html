@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Rooms & Suites - InnoStay</title>
+    
+    <!-- This is the line you add -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <img src="./images/Innostay_logo-removebg-preview.png" alt="InnoStay Logo">
+                <span>InnoStay</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="index.html#amenities">Amenities</a>
+            </div>
+        </div>
+    </nav>
+<main class="container page-content">
+
+    <!-- Section 1: Standard Rooms -->
+    <section class="room-category" id="standard-rooms">
+        <div class="section-header">
+            <h2>Standard Rooms</h2>
+            <p>Comfortable and elegantly designed for a relaxing stay.</p>
+        </div>
+        <div class="detailed-room-grid">
+            <!-- Standard Room 1 -->
+            <div class="detailed-room-card">
+                <img src="./images/standard_room1.jpg" alt="Standard Room 1">
+                <div class="detailed-room-content">
+                    <h3>Cozy Queen Room</h3>
+                    <div class="room-meta">
+                        <span><strong>Price:</strong> Rs.13,200 / night</span>
+                        <span><strong>Beds:</strong> 1 Queen Bed</span>
+                    </div>
+                    <div class="room-actions">
+                        <a href="room_details_new.html?room=cozy-queen-room" class="btn btn-secondary view-details-btn">View Details</a>
+                        <a href="#" class="btn btn-primary">Book Now</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Standard Room 2 -->
+            <div class="detailed-room-card">
+                <img src="./images/standard_room2.jpg" alt="Standard Room 2">
+                <div class="detailed-room-content">
+                    <h3>City View Twin</h3>
+                    <div class="room-meta">
+                        <span><strong>Price:</strong> Rs.14,520 / night</span>
+                        <span><strong>Beds:</strong> 2 Twin Beds</span>
+                    </div>
+                    <div class="room-actions">
+                        <a href="room_details_new.html?room=city-view-twin" class="btn btn-secondary view-details-btn">View Details</a>
+                        <a href="#" class="btn btn-primary">Book Now</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Standard Room 3 -->
+            <div class="detailed-room-card">
+                <img src="./images/standard_room3.jpg" alt="Standard Room 3">
+                <div class="detailed-room-content">
+                    <h3>Classic King Room</h3>
+                    <div class="room-meta">
+                        <span><strong>Price:</strong> Rs.15,400 / night</span>
+                        <span><strong>Beds:</strong> 1 King Bed</span>
+                    </div>
+                    <div class="room-actions">
+                        <a href="room_details_new.html?room=classic-king-room" class="btn btn-secondary view-details-btn">View Details</a>
+                        <a href="#" class="btn btn-primary">Book Now</a>
+                    </div>
+                </div>
+            </div>
+             <!-- Standard Room 4 -->
+            <div class="detailed-room-card">
+                <img src="./images/standard_room4.jpg" alt="Standard Room 4">
+                <div class="detailed-room-content">
+                    <h3>Standard Double</h3>
+                    <div class="room-meta">
+                        <span><strong>Price:</strong> Rs.15,840 / night</span>
+                        <span><strong>Beds:</strong> 2 Double Beds</span>
+                    </div>
+                    <div class="room-actions">
+                        <a href="room_details_new.html?room=standard-double" class="btn btn-secondary view-details-btn">View Details</a>
+                        <a href="#" class="btn btn-primary">Book Now</a>
+                    </div>
+                </div>
+            </div>
+             <!-- Standard Room 5 -->
+            <div class="detailed-room-card">
+                <img src="./images/standard_room5.jpg" alt="Standard Room 5">
+                <div class="detailed-room-content">
+                    <h3>Compact Solo Room</h3>
+                    <div class="room-meta">
+                        <span><strong>Price:</strong> Rs.11,880 / night</span>
+                        <span><strong>Beds:</strong> 1 Single Bed</span>
+                    </div>
+                    <div class="room-actions">
+                        <a href="room_details_new.html?room=compact-solo-room" class="btn btn-secondary view-details-btn">View Details</a>
+                        <a href="#" class="btn btn-primary">Book Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer class="footer"><div class="container"><div class="footer-bottom"><p>&copy; 2025 InnoStay. All Rights Reserved. | <a href="index.html#rooms">Back to Rooms and Suites</a></p></div></div></footer>
+
+</main>
+
+<script>
+// Redirect Book Now to main page booking with preselected type
+// Replace redirect: open an inline booking modal on this page
+(function(){
+  const API_BASE = ['localhost', '127.0.0.1'].includes(window.location.hostname) && window.location.port === '5500' ? 'http://localhost:4001' : window.location.origin;
+  // Modal markup
+  const modal = document.createElement('div');
+  modal.className = 'modal-overlay hidden';
+  modal.id = 'std-booking-modal';
+  modal.innerHTML = `
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h2>Book Standard Room</h2>
+      <form id="std-booking-form">
+        <div class="form-group-modal" style="display:none"><label>Room</label><select id="std-room"></select></div>
+        <div class="form-group-modal"><label>Selected Sub-room</label><input type="text" id="std-subroom" readonly></div>
+        <div class="form-group-modal"><label>Price</label><input type="text" id="std-price" readonly></div>
+        <div class="form-group-modal"><label>Check-in</label><input type="date" id="std-checkin" required></div>
+        <div class="form-group-modal"><label>Check-out</label><input type="date" id="std-checkout" required></div>
+        <div class="form-group-modal"><label>Guests</label><input type="number" id="std-guests" min="1" value="2" required></div>
+        <div class="form-group-modal"><label>Full Name</label><input type="text" id="std-fullname" required></div>
+        <div class="form-group-modal"><label>Email</label><input type="email" id="std-email" required></div>
+        <div class="form-group-modal"><label>Phone</label><input type="tel" id="std-phone" required></div>
+        <button type="submit" class="btn btn-primary">Book Now</button>
+      </form>
+    </div>`;
+  document.body.appendChild(modal);
+  const closeBtn = modal.querySelector('.close-modal');
+  const hide = () => modal.classList.add('hidden');
+  const show = () => modal.classList.remove('hidden');
+  if (closeBtn) closeBtn.addEventListener('click', hide);
+
+  async function loadRooms() {
+    const res = await fetch(`${API_BASE}/api/rooms`);
+    const data = await res.json();
+    const rooms = (data.rooms||[]).filter(r => String(r.type).toLowerCase()==='standard');
+    const select = document.getElementById('std-room');
+    select.innerHTML = '';
+    rooms.forEach(r=>{ const o=document.createElement('option'); o.value=r._id; o.textContent=`${r.name} - ₹${r.pricePerNight}/night`; select.appendChild(o); });
+  }
+
+  document.querySelectorAll('.room-actions .btn.btn-primary').forEach(btn => {
+    btn.addEventListener('click', async function(e){
+      e.preventDefault();
+      if (!localStorage.getItem('token')) { alert('Please login to book.'); return; }
+      await loadRooms();
+      // Set sub-room name from the clicked card title
+      const card = this.closest('.detailed-room-card');
+      const title = card ? (card.querySelector('h3')?.textContent || '') : '';
+      const subInput = document.getElementById('std-subroom');
+      if (subInput) subInput.value = title;
+      const metaPrice = card ? (card.querySelector('.room-meta span')?.textContent || '') : '';
+      const priceInput = document.getElementById('std-price');
+      if (priceInput) priceInput.value = metaPrice.replace('Price:','').trim();
+      // Default to first available standard parent room
+      const roomSel = document.getElementById('std-room');
+      if (roomSel && roomSel.options.length) roomSel.selectedIndex = 0;
+      show();
+    });
+  });
+
+  const form = document.getElementById('std-booking-form');
+  form.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    const token = localStorage.getItem('token');
+    if (!token) { alert('Please login to book.'); return; }
+    const payload = {
+      roomId: document.getElementById('std-room').value,
+      checkIn: document.getElementById('std-checkin').value,
+      checkOut: document.getElementById('std-checkout').value,
+      guests: parseInt(document.getElementById('std-guests').value,10),
+      contact: { fullName: document.getElementById('std-fullname').value, email: document.getElementById('std-email').value, phone: document.getElementById('std-phone').value },
+      customers: [],
+      selectedSubroom: document.getElementById('std-subroom').value
+    };
+    const res = await fetch(`${API_BASE}/api/bookings`, { method:'POST', headers:{'Content-Type':'application/json', Authorization:`Bearer ${token}`}, body: JSON.stringify(payload)});
+    const data = await res.json().catch(()=>({}));
+    if (res.ok) {
+      hide();
+      // open receipt
+      const pdfRes = await fetch(`${API_BASE}/api/bookings/${data.booking._id}/receipt`, { headers:{Authorization:`Bearer ${token}`} });
+      if (pdfRes.ok) { const blob = await pdfRes.blob(); const url = URL.createObjectURL(blob); window.open(url,'_blank'); setTimeout(()=>URL.revokeObjectURL(url),60000); }
+      alert('Booking confirmed!');
+    } else {
+      alert(data.message || 'Booking failed');
+    }
+  });
+})();
+</script>

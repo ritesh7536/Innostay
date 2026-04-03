@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+            font-family: Arial, sans-serif;
+        }
+        .hotel-room {
+            width: 1200px;
+            height: 800px;
+            background: linear-gradient(180deg, #F3E5F5 0%, #E1BEE7 100%);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin: 0 auto;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        /* Floor */
+        .floor {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 120px;
+            background: linear-gradient(90deg, #4A148C 0%, #7B1FA2 50%, #4A148C 100%);
+            box-shadow: inset 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        /* Wall */
+        .wall {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 680px;
+            background: linear-gradient(180deg, #FAFAFA 0%, #F3E5F5 100%);
+            box-shadow: inset 0 0 30px rgba(0,0,0,0.1);
+        }
+        
+        /* King Bed */
+        .king-bed {
+            position: absolute;
+            bottom: 120px;
+            right: 200px;
+            width: 500px;
+            height: 320px;
+            background: linear-gradient(180deg, #FFFFFF 0%, #F0F0F0 100%);
+            border-radius: 15px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        }
+        
+        .king-headboard {
+            position: absolute;
+            top: -80px;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: linear-gradient(180deg, #9C27B0 0%, #7B1FA2 100%);
+            border-radius: 15px 15px 0 0;
+            box-shadow: 0 -8px 25px rgba(0,0,0,0.3);
+        }
+        
+        .king-headboard-pattern {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 400px;
+            height: 60px;
+            background: repeating-linear-gradient(90deg, #7B1FA2 0px, #7B1FA2 10px, #9C27B0 10px, #9C27B0 20px);
+            border-radius: 10px;
+            opacity: 0.6;
+        }
+        
+        .mattress {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            right: 30px;
+            bottom: 30px;
+            background: linear-gradient(180deg, #FFFFFF 0%, #E8E8E8 100%);
+            border-radius: 10px;
+            box-shadow: inset 0 3px 15px rgba(0,0,0,0.1);
+        }
+        
+        .pillow {
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 380px;
+            height: 80px;
+            background: linear-gradient(180deg, #FFFFFF 0%, #F5F5F5 100%);
+            border-radius: 40px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+        
+        .blanket {
+            position: absolute;
+            top: 110px;
+            left: 30px;
+            right: 30px;
+            bottom: 30px;
+            background: linear-gradient(180deg, #9C27B0 0%, #7B1FA2 100%);
+            border-radius: 10px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+        
+        .blanket-pattern {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            background: repeating-linear-gradient(45deg, #9C27B0 0px, #9C27B0 20px, #7B1FA2 20px, #7B1FA2 40px);
+            border-radius: 8px;
+            opacity: 0.4;
+        }
+        
+        /* Luxury Nightstand */
+        .luxury-nightstand {
+            position: absolute;
+            bottom: 120px;
+            right: 730px;
+            width: 150px;
+            height: 200px;
+            background: linear-gradient(180deg, #8B4513 0%, #654321 100%);
+            border-radius: 8px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+        }
+        
+        .nightstand-drawer {
+            position: absolute;
+            top: 40px;
+            left: 10px;
+            right: 10px;
+            height: 30px;
+            background: linear-gradient(180deg, #654321 0%, #4A3020 100%);
+            border-radius: 5px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+        }
+        
+        .nightstand-drawer-handle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 8px;
+            background: #FFD700;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+        
+        .nightstand-top {
+            position: absolute;
+            top: -10px;
+            left: -5px;
+            right: -5px;
+            height: 20px;
+            background: linear-gradient(180deg, #D4A574 0%, #8B4513 100%);
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        /* Luxury Lamp */
+        .luxury-lamp {
+            position: absolute;
+            top: -120px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 100px;
+        }
+        
+        .lamp-base {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 25px;
+            background: linear-gradient(180deg, #FFD700 0%, #FFA500 100%);
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+        }
+        
+        .lamp-pole {
+            position: absolute;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 10px;
+            height: 80px;
+            background: linear-gradient(180deg, #FFD700 0%, #FFA500 100%);
+            box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+        }
+        
+        .lamp-shade {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 50px;
+            background: linear-gradient(180deg, #FFF8DC 0%, #F0E68C 100%);
+            border-radius: 50px 50px 0 0;
+            box-shadow: 0 8px 25px rgba(255,215,0,0.4);
+        }
+        
+        /* Seating Area */
+        .sofa {
+            position: absolute;
+            bottom: 120px;
+            left: 100px;
+            width: 400px;
+            height: 180px;
+            background: linear-gradient(180deg, #7B1FA2 0%, #9C27B0 100%);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        }
+        
+        .sofa-cushion {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            height: 60px;
+            background: linear-gradient(180deg, #9C27B0 0%, #7B1FA2 100%);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .sofa-back {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: linear-gradient(180deg, #9C27B0 0%, #7B1FA2 100%);
+            border-radius: 15px 15px 0 0;
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.3);
+        }
+        
+        /* Coffee Table */
+        .coffee-table {
+            position: absolute;
+            bottom: 120px;
+            left: 520px;
+            width: 200px;
+            height: 120px;
+            background: linear-gradient(180deg, #8B4513 0%, #654321 100%);
+            border-radius: 10px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+        }
+        
+        .table-top {
+            position: absolute;
+            top: -8px;
+            left: -4px;
+            right: -4px;
+            height: 16px;
+            background: linear-gradient(180deg, #D4A574 0%, #8B4513 100%);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        /* Large Window */
+        .window {
+            position: absolute;
+            top: 80px;
+            left: 100px;
+            width: 350px;
+            height: 400px;
+            background: linear-gradient(135deg, #87CEEB 0%, #6BB6FF 50%, #87CEEB 100%);
+            border: 12px solid #654321;
+            border-radius: 10px;
+            box-shadow: inset 0 0 30px rgba(255,255,255,0.6), 0 10px 30px rgba(0,0,0,0.4);
+        }
+        
+        .window-frame {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            height: 80%;
+            border: 8px solid #654321;
+            border-radius: 8px;
+        }
+        
+        /* Luxury Artwork */
+        .luxury-artwork {
+            position: absolute;
+            top: 120px;
+            right: 100px;
+            width: 200px;
+            height: 300px;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF6347 100%);
+            border: 15px solid #8B4513;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        }
+        
+        .artwork-frame {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            right: 15px;
+            bottom: 15px;
+            background: linear-gradient(135deg, #9C27B0 0%, #7B1FA2 50%, #9C27B0 100%);
+            border-radius: 8px;
+        }
+        
+        /* Quality Badge */
+        .quality-label {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #4CAF50 0%, #45A049 100%);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 18px;
+            box-shadow: 0 5px 20px rgba(76,175,80,0.4);
+            z-index: 10;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+    </style>
+</head>
+<body>
+    <div class="hotel-room">
+        <div class="quality-label">4K King Suite</div>
+        <div class="wall"></div>
+        <div class="floor"></div>
+        <div class="window">
+            <div class="window-frame"></div>
+        </div>
+        <div class="luxury-artwork">
+            <div class="artwork-frame"></div>
+        </div>
+        <div class="king-bed">
+            <div class="king-headboard">
+                <div class="king-headboard-pattern"></div>
+            </div>
+            <div class="mattress">
+                <div class="pillow"></div>
+                <div class="blanket">
+                    <div class="blanket-pattern"></div>
+                </div>
+            </div>
+        </div>
+        <div class="luxury-nightstand">
+            <div class="nightstand-top"></div>
+            <div class="nightstand-drawer">
+                <div class="nightstand-drawer-handle"></div>
+            </div>
+            <div class="luxury-lamp">
+                <div class="lamp-shade"></div>
+                <div class="lamp-pole"></div>
+                <div class="lamp-base"></div>
+            </div>
+        </div>
+        <div class="sofa">
+            <div class="sofa-back"></div>
+            <div class="sofa-cushion"></div>
+        </div>
+        <div class="coffee-table">
+            <div class="table-top"></div>
+        </div>
+    </div>
+</body>
+</html>

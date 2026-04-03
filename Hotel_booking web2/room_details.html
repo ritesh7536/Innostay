@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room Details - InnoStay</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .room-details-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .room-hero {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .room-image-gallery {
+            position: relative;
+            height: 500px;
+            background: #f8f9fa;
+        }
+
+        .main-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .image-thumbnails {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            background: rgba(255,255,255,0.9);
+            padding: 10px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .thumbnail {
+            width: 80px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .thumbnail:hover {
+            transform: scale(1.05);
+        }
+
+        .thumbnail.active {
+            border-color: #667eea;
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
+        }
+
+        .room-info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            padding: 40px;
+        }
+
+        .room-info-left h1 {
+            font-size: 2.5rem;
+            color: #2d3748;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .room-price {
+            font-size: 2rem;
+            color: #667eea;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .room-price span {
+            font-size: 1rem;
+            color: #718096;
+            font-weight: 400;
+        }
+
+        .room-specs {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .spec-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .spec-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+        }
+
+        .spec-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .spec-label {
+            font-size: 0.875rem;
+            color: #718096;
+        }
+
+        .spec-value {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .room-description {
+            margin-bottom: 30px;
+        }
+
+        .room-description h3 {
+            font-size: 1.5rem;
+            color: #2d3748;
+            margin-bottom: 15px;
+        }
+
+        .room-description p {
+            line-height: 1.6;
+            color: #4a5568;
+        }
+
+        .amenities-section {
+            margin-bottom: 30px;
+        }
+
+        .amenities-section h3 {
+            font-size: 1.5rem;
+            color: #2d3748;
+            margin-bottom: 20px;
+        }
+
+        .amenities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .amenity-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .amenity-item:hover {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        }
+
+        .amenity-icon {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .booking-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+
+        .booking-card h3 {
+            font-size: 1.5rem;
+            color: #2d3748;
+            margin-bottom: 20px;
+        }
+
+        .booking-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-weight: 500;
+            color: #4a5568;
+            font-size: 0.875rem;
+        }
+
+        .form-group input {
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .btn-book {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 16px 24px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .btn-book:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: white;
+            text-decoration: none;
+            margin-bottom: 20px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            transform: translateX(-5px);
+        }
+
+        @media (max-width: 968px) {
+            .room-info-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .booking-card {
+                position: static;
+            }
+
+            .room-image-gallery {
+                height: 300px;
+            }
+
+            .room-info-left h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .room-details-container {
+                padding: 10px;
+            }
+
+            .room-info-grid {
+                padding: 20px;
+            }
+
+            .image-thumbnails {
+                bottom: 10px;
+                gap: 5px;
+                padding: 5px;
+            }
+
+            .thumbnail {
+                width: 60px;
+                height: 45px;
+            }
+
+            .amenities-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="room-details-container">
+        <a href="standard_room.html" class="back-btn">
+            ← Back to Rooms
+        </a>
+
+        <div class="room-hero">
+            <div class="room-image-gallery">
+                <img id="mainImage" class="main-image" src="" alt="Room">
+                <div class="image-thumbnails" id="thumbnails">
+                    <!-- Thumbnails will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <div class="room-info-grid">
+            <div class="room-info-left">
+                <h1 id="roomName">Room Name</h1>
+                <div class="room-price">
+                    <span id="roomPrice">Rs.0</span> <span>/ night</span>
+                </div>
+
+                <div class="room-specs">
+                    <div class="spec-item">
+                        <div class="spec-icon">🛏️</div>
+                        <div class="spec-text">
+                            <span class="spec-label">Bed Type</span>
+                            <span class="spec-value" id="bedType">-</span>
+                        </div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-icon">👥</div>
+                        <div class="spec-text">
+                            <span class="spec-label">Capacity</span>
+                            <span class="spec-value" id="capacity">-</span>
+                        </div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-icon">📏</div>
+                        <div class="spec-text">
+                            <span class="spec-label">Size</span>
+                            <span class="spec-value" id="roomSize">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="room-description">
+                    <h3>About This Room</h3>
+                    <p id="roomDescription">Room description will appear here.</p>
+                </div>
+
+                <div class="amenities-section">
+                    <h3>Amenities & Features</h3>
+                    <div class="amenities-grid" id="amenitiesGrid">
+                        <!-- Amenities will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="room-info-right">
+                <div class="booking-card">
+                    <h3>Book This Room</h3>
+                    <form class="booking-form" id="bookingForm">
+                        <div class="form-group">
+                            <label for="checkIn">Check-in Date</label>
+                            <input type="date" id="checkIn" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="checkOut">Check-out Date</label>
+                            <input type="date" id="checkOut" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="guests">Number of Guests</label>
+                            <input type="number" id="guests" min="1" value="2" required>
+                        </div>
+                        <button type="submit" class="btn-book">Book Now</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Room data with multiple images
+        const roomData = {
+            'cozy-queen-room': {
+                name: 'Cozy Queen Room',
+                price: 'Rs.13,200',
+                bedType: '1 Queen Bed',
+                capacity: '2 Guests',
+                size: '25 sqm',
+                description: 'Experience comfort and elegance in our Cozy Queen Room. Perfectly designed for couples or solo travelers seeking a peaceful retreat. The room features a luxurious queen bed, modern amenities, and a soothing color palette that creates a relaxing atmosphere.',
+                images: [
+                    './images/standard_room1.jpg',
+                    './images/standard_room2.jpg',
+                    './images/standard_room3.jpg',
+                    './images/standard_room4.jpg'
+                ],
+                amenities: [
+                    { icon: '📶', name: 'High-Speed WiFi' },
+                    { icon: '❄️', name: 'Air Conditioning' },
+                    { icon: '📺', name: 'Smart TV' },
+                    { icon: '🧊', name: 'Mini Fridge' },
+                    { icon: '☕', name: 'Coffee Maker' },
+                    { icon: '🚿', name: 'Private Bathroom' },
+                    { icon: '🔒', name: 'Safe' },
+                    { icon: '👔', name: 'Work Desk' }
+                ]
+            },
+            'city-view-twin': {
+                name: 'City View Twin',
+                price: 'Rs.14,520',
+                bedType: '2 Twin Beds',
+                capacity: '2-3 Guests',
+                size: '28 sqm',
+                description: 'Enjoy stunning city views from our City View Twin room. Bright and airy with two comfortable twin beds, this room is perfect for friends or colleagues traveling together. Large windows provide natural light and panoramic views of the city skyline.',
+                images: [
+                    './images/standard_room1.jpg',
+                    './images/standard_room2.jpg',
+                    './images/standard_room3.jpg',
+                    './images/standard_room4.jpg'
+                ],
+                amenities: [
+                    { icon: '📶', name: 'High-Speed WiFi' },
+                    { icon: '❄️', name: 'Air Conditioning' },
+                    { icon: '📺', name: 'Smart TV' },
+                    { icon: '🏙️', name: 'City View' },
+                    { icon: '💼', name: 'Work Desk' },
+                    { icon: '🚿', name: 'Private Bathroom' },
+                    { icon: '🔒', name: 'Safe' },
+                    { icon: '☕', name: 'Coffee Station' }
+                ]
+            },
+            'classic-king-room': {
+                name: 'Classic King Room',
+                price: 'Rs.15,400',
+                bedType: '1 King Bed',
+                capacity: '2-3 Guests',
+                size: '35 sqm',
+                description: 'Indulge in luxury in our Classic King Room. Spacious and elegantly appointed with a plush king bed, premium furnishings, and sophisticated decor. Perfect for those who appreciate the finer things in life during their stay.',
+                images: [
+                    './images/standard_room1.jpg',
+                    './images/standard_room2.jpg',
+                    './images/standard_room3.jpg',
+                    './images/standard_room4.jpg'
+                ],
+                amenities: [
+                    { icon: '📶', name: 'High-Speed WiFi' },
+                    { icon: '❄️', name: 'Air Conditioning' },
+                    { icon: '📺', name: 'Smart TV' },
+                    { icon: '👑', name: 'King Size Bed' },
+                    { icon: '💼', name: 'Work Desk' },
+                    { icon: '🍷', name: 'Mini Bar' },
+                    { icon: '🚿', name: 'Luxury Bathroom' },
+                    { icon: '🛋️', name: 'Seating Area' }
+                ]
+            },
+            'standard-double': {
+                name: 'Standard Double',
+                price: 'Rs.15,840',
+                bedType: '2 Double Beds',
+                capacity: '4 Guests',
+                size: '40 sqm',
+                description: 'Ideal for families or groups, our Standard Double room features two comfortable double beds and ample space for everyone. Modern amenities and thoughtful touches ensure a comfortable stay for families traveling together.',
+                images: [
+                    './images/standard_room1.jpg',
+                    './images/standard_room2.jpg',
+                    './images/standard_room3.jpg',
+                    './images/standard_room4.jpg'
+                ],
+                amenities: [
+                    { icon: '📶', name: 'High-Speed WiFi' },
+                    { icon: '❄️', name: 'Air Conditioning' },
+                    { icon: '📺', name: 'Smart TV' },
+                    { icon: '🛏️', name: '2 Double Beds' },
+                    { icon: '🛋️', name: 'Sitting Area' },
+                    { icon: '🚿', name: 'Private Bathroom' },
+                    { icon: '🔒', name: 'Safe' },
+                    { icon: '🧺', name: 'Wardrobe' }
+                ]
+            },
+            'compact-solo-room': {
+                name: 'Compact Solo Room',
+                price: 'Rs.11,880',
+                bedType: '1 Single Bed',
+                capacity: '1 Guest',
+                size: '18 sqm',
+                description: 'Efficient and cozy, our Compact Solo Room is designed for the solo traveler. Smart use of space provides all essential amenities in a comfortable setting. Perfect for business travelers or those seeking a private retreat.',
+                images: [
+                    './images/standard_room1.jpg',
+                    './images/standard_room2.jpg',
+                    './images/standard_room3.jpg',
+                    './images/standard_room4.jpg'
+                ],
+                amenities: [
+                    { icon: '📶', name: 'High-Speed WiFi' },
+                    { icon: '❄️', name: 'Air Conditioning' },
+                    { icon: '📺', name: 'Smart TV' },
+                    { icon: '🛏️', name: 'Single Bed' },
+                    { icon: '💻', name: 'Study Desk' },
+                    { icon: '🚿', name: 'Private Bathroom' },
+                    { icon: '🔒', name: 'Safe' },
+                    { icon: '📚', name: 'Reading Light' }
+                ]
+            }
+        };
+
+        // Get room ID from URL parameter
+        function getRoomId() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('room');
+        }
+
+        // Initialize page
+        function initializePage() {
+            const roomId = getRoomId();
+            const room = roomData[roomId];
+            
+            if (!room) {
+                document.querySelector('.room-details-container').innerHTML = `
+                    <div style="text-align: center; padding: 100px 20px; color: white;">
+                        <h1>Room Not Found</h1>
+                        <p>The room you're looking for doesn't exist.</p>
+                        <a href="standard_room.html" class="back-btn" style="display: inline-flex; margin-top: 20px;">
+                            ← Back to Rooms
+                        </a>
+                    </div>
+                `;
+                return;
+            }
+
+            // Populate room information
+            document.getElementById('roomName').textContent = room.name;
+            document.getElementById('roomPrice').textContent = room.price;
+            document.getElementById('bedType').textContent = room.bedType;
+            document.getElementById('capacity').textContent = room.capacity;
+            document.getElementById('roomSize').textContent = room.size;
+            document.getElementById('roomDescription').textContent = room.description;
+
+            // Set up image gallery
+            setupImageGallery(room.images);
+
+            // Populate amenities
+            setupAmenities(room.amenities);
+        }
+
+        // Setup image gallery
+        function setupImageGallery(images) {
+            const mainImage = document.getElementById('mainImage');
+            const thumbnailsContainer = document.getElementById('thumbnails');
+            
+            // Set main image
+            mainImage.src = images[0];
+            
+            // Create thumbnails
+            images.forEach((image, index) => {
+                const thumbnail = document.createElement('img');
+                thumbnail.src = image;
+                thumbnail.className = 'thumbnail';
+                if (index === 0) thumbnail.classList.add('active');
+                
+                thumbnail.addEventListener('click', () => {
+                    mainImage.src = image;
+                    document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+                    thumbnail.classList.add('active');
+                });
+                
+                thumbnailsContainer.appendChild(thumbnail);
+            });
+        }
+
+        // Setup amenities
+        function setupAmenities(amenities) {
+            const amenitiesGrid = document.getElementById('amenitiesGrid');
+            
+            amenities.forEach(amenity => {
+                const amenityItem = document.createElement('div');
+                amenityItem.className = 'amenity-item';
+                amenityItem.innerHTML = `
+                    <span class="amenity-icon">${amenity.icon}</span>
+                    <span>${amenity.name}</span>
+                `;
+                amenitiesGrid.appendChild(amenityItem);
+            });
+        }
+
+        // Handle booking form submission
+        document.getElementById('bookingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const roomId = getRoomId();
+            const room = roomData[roomId];
+            
+            // Redirect to booking page with room data
+            const bookingData = {
+                roomName: room.name,
+                roomPrice: room.price,
+                checkIn: document.getElementById('checkIn').value,
+                checkOut: document.getElementById('checkOut').value,
+                guests: document.getElementById('guests').value
+            };
+            
+            // Store booking data in localStorage
+            localStorage.setItem('bookingData', JSON.stringify(bookingData));
+            
+            // Redirect to booking page
+            window.location.href = 'booknow.html';
+        });
+
+        // Initialize page when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initializePage);
+    </script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Parking - InnoStay</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style2.css">
+</head>
+<body>
+    <nav class="navbar"><div class="container"><a href="index.html" class="logo"><img src="./images/Innostay_logo-removebg-preview.png" alt="InnoStay Logo"><span>InnoStay</span></a><div class="nav-links"><a href="index.html">Home</a><a href="rooms.html">Rooms</a><a href="index.html#amenities">Amenities</a></div></div></nav>
+    <header class="page-header"><div class="container"><h1>Secure & Convenient Parking</h1><p>Enjoy peace of mind with our secure on-site parking facilities.</p></div></header>
+    <main class="container page-content">
+        <div class="photo-gallery-grid">
+            <div class="photo-item"><img src="./images2/parking1.jpg" alt="Dining 1" onclick="openLightbox(this)"></div>
+            <div class="photo-item"><img src="./images2/parking2.jpg" alt="Dining 2" onclick="openLightbox(this)"></div>
+            <div class="photo-item"><img src="./images2/parking3.jpg" alt="Dining 3" onclick="openLightbox(this)"></div>
+            <div class="photo-item"><img src="./images2/parking4.jpg" alt="Dining 4" onclick="openLightbox(this)"></div>
+        </div>
+    </main>
+    <div id="lightbox" class="lightbox" onclick="closeLightbox()"><span class="lightbox-close">&times;</span><img class="lightbox-content" id="lightbox-img"></div>
+    
+    <footer class="footer"><div class="container"><div class="footer-bottom"><p>&copy; 2024 InnoStay. All Rights Reserved. | <a href="index.html#amenities">Back to Amenities</a></p></div></div></footer>
+    <script>
+        function openLightbox(element) { document.getElementById('lightbox').style.display = 'flex'; document.getElementById('lightbox-img').src = element.src; }
+        function closeLightbox() { document.getElementById('lightbox').style.display = 'none'; }
+    </script>
+</body>
+</html>

@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InnoStay - Your Professional Getaway</title>
+    <link rel="icon" type="image/x-icon" href="./favicon.ico">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- html2pdf library for PDF generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<body>
+
+    <!-- 1. Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <img src="./images/Innostay_logo-removebg-preview.png" alt="InnoStay Logo">
+                <span>InnoStay</span>
+            </a>
+            
+            <!-- Main Navigation Links (Center/Left) -->
+            <div class="main-nav">
+                <a href="#home">Home</a>
+                <a href="#rooms">Rooms</a>
+                <a href="#amenities">Amenities</a>
+                <a href="#contact">Contact</a>
+                <a href="bookings.html" id="my-bookings-link" class="nav-link" style="display:none;">My Bookings</a>
+            </div>
+
+            <!-- Action Buttons (Right) -->
+            <div class="nav-actions">
+                <!-- Auth Links -->
+                <a href="login.html" id="login-link" class="nav-link">Login</a>
+                <a href="register.html" id="register-link" class="btn btn-primary">Register</a>
+                
+                <!-- Authenticated User Actions -->
+                <a href="booknow.html" id="nav-book-now" class="btn btn-primary" style="display:none;">Book Now</a>
+
+                <!-- User Menu Dropdown -->
+                <div class="user-menu-container" id="user-menu-container" style="display:none; position: relative;">
+                    <div class="user-icon" id="user-icon" style="cursor: pointer; color: #007bff; font-size: 1.8rem;">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <div class="user-dropdown" id="user-dropdown" style="display: none; position: absolute; right: 0; top: 100%; margin-top: 15px; background: white; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); min-width: 200px; z-index: 1000; border: 1px solid #e5e7eb; overflow: hidden;">
+                        <div class="user-name" id="dropdown-user-name" style="padding: 12px 16px; border-bottom: 1px solid #f3f4f6; font-weight: 600; color: #333;">User Name</div>
+                        <a href="#" id="dropdown-logout" class="dropdown-item" style="display: block; padding: 12px 16px; color: #dc3545; text-decoration: none; transition: background 0.2s;">
+                            <i class="fas fa-sign-out-alt" style="margin-right: 8px;"></i> Logout
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- (Your existing content from hero to footer remains unchanged) -->
+    <!-- 2. Hero Section -->
+    <header class="hero" id="home">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1>Your Perfect Get-away Awaits</h1>
+            <p>Discover luxury rooms, world-class amenities, and an unforgettable experience.</p>
+            <div class="booking-form-container" id="booking">
+                <form class="booking-form" id="booking-form">
+                    <div class="form-group">
+                        <label>Check-in Date</label>
+                        <input type="date" id="checkin" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Check-out Date</label>
+                        <input type="date" id="checkout" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Guests</label>
+                        <input type="number" id="guests" min="1" value="2" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary search-btn">Search Rooms</button>
+                </form>
+            </div>
+        </div>
+    </header>
+
+    <!-- 3. "Why Choose Us?" Section -->
+    <section class="why-choose-us">
+        <div class="container">
+            <div class="feature">
+                <span class="feature-icon">💲</span>
+                <h4>Best Price Guarantee</h4>
+                <p>We offer the most competitive prices on all our luxury rooms.</p>
+            </div>
+            <div class="feature">
+                <span class="feature-icon">🎧</span>
+                <h4>24/7 Customer Support</h4>
+                <p>Our dedicated team is here to assist you anytime, day or night.</p>
+            </div>
+            <div class="feature">
+                <span class="feature-icon">✅</span>
+                <h4>Verified Reviews</h4>
+                <p>Book with confidence based on feedback from real guests.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Our Amenities Section -->
+    <section id="amenities" class="amenities-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Explore Our Amenities</h2>
+                <p>We offer a wide range of facilities to make your stay comfortable and enjoyable.</p>
+            </div>
+            <div class="amenities-grid">
+                <a href="gallery-pool.html" class="amenity-link"><div class="amenity-item"><span class="amenity-icon">🏊</span><h4>Swimming Pool</h4></div></a>
+                <a href="gallery-gym.html" class="amenity-link"><div class="amenity-item"><span class="amenity-icon">💪</span><h4>Fitness Center</h4></div></a>
+                <a href="gallery-spa.html" class="amenity-link"><div class="amenity-item"><span class="amenity-icon">💆</span><h4>Luxury Spa</h4></div></a>
+                <a href="gallery-restaurant.html" class="amenity-link"><div class="amenity-item"><span class="amenity-icon">🍴</span><h4>Restaurant</h4></div></a>
+                <a href="gallery-wifi.html" class="amenity-link"><div class="amenity-item"><span class="amenity-icon">📶</span><h4>Free High-Speed WiFi</h4></div></a>
+                <a href="gallery-parking.html" class="amenity-link"><div class="amenity-item"><span class="amenity-icon">🅿️</span><h4>Secure Parking</h4></div></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about-us" class="about-us-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>About Us</h2>
+                <p>Discover the story behind InnoStay and our commitment to excellence.</p>
+            </div>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>Welcome to InnoStay, where luxury meets comfort. Our hotel is designed to provide you with an unforgettable experience, whether you are traveling for business or leisure. Located in the heart of the city, we offer world-class amenities, exquisite dining options, and exceptional service.</p>
+                    <p>Our dedicated team is committed to making your stay as pleasant as possible. From our spacious rooms to our state-of-the-art facilities, every detail is crafted with your satisfaction in mind.</p>
+                </div>
+                <div class="about-image">
+                    <img src="./images/hotel_exterior.jpg" alt="About InnoStay">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. Rooms & Suites Section -->
+    <section id="rooms" class="rooms-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Our Finest Rooms & Suites</h2>
+                <p>Each room is designed with your comfort and convenience in mind.</p>
+            </div>
+            <div class="room-grid" id="room-grid">
+                <div class="room-card">
+                    <div class="room-image">
+                        <img src="./images/standard_room.jpg" alt="Standard Room">
+                        <div class="room-tag bestseller">Best Seller</div>
+                    </div>
+                    <div class="room-content">
+                        <div class="room-rating">★★★★☆<span>4.0 (150 reviews)</span></div>
+                        <h3>Standard Room</h3>
+                        <p class="room-description">Cozy and comfortable, perfect for solo travelers or couples.</p>
+                        <ul class="amenities-list">
+                            <li>1 King Bed</li>
+                            <li>2 Guests</li>
+                        </ul>
+                        <div class="price-action"><a href="standard_room.html" class="btn btn-secondary">View Details</a></div>
+                    </div>
+                </div>
+                <div class="room-card">
+                    <div class="room-image">
+                        <img src="./images/deluxe.jpeg" alt="Deluxe Room">
+                        <div class="room-tag cancellation">Free Cancellation</div>
+                    </div>
+                    <div class="room-content">
+                        <div class="room-rating">★★★★☆<span>4.7 (210 reviews)</span></div>
+                        <h3>Deluxe Room</h3>
+                        <p class="room-description">Spacious room with a view, offering extra comfort and amenities.</p>
+                        <ul class="amenities-list">
+                            <li>1 King or 2 Twin</li>
+                            <li>3 Guests</li>
+                        </ul>
+                        <div class="price-action"><a href="delux_room.html" class="btn btn-secondary">View Details</a></div>
+                    </div>
+                </div>
+                <div class="room-card">
+                    <div class="room-image">
+                        <img src="./images/executive.jpg" alt="Executive Suite">
+                    </div>
+                    <div class="room-content">
+                        <div class="room-rating">★★★★★<span>4.9 (180 reviews)</span></div>
+                        <h3>Executive Suite</h3>
+                        <p class="room-description">Luxurious suite with a separate living area and premium amenities.</p>
+                        <ul class="amenities-list">
+                            <li>1 King Bed</li>
+                            <li>4 Guests</li>
+                        </ul>
+                        <div class="price-action"><a href="executive_suite_rooms.html" class="btn btn-secondary">View Details</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. Image Gallery Section -->
+    <section id="gallery" class="gallery-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Our Photo Gallery</h2>
+                <p>A glimpse into the luxury and comfort that awaits you at InnoStay.</p>
+            </div>
+            <div class="gallery-grid">
+                <div><div class="gallery-item"><img src="./images/lobby.jpg" alt="Hotel Lobby"></div><h3>Lobby</h3></div>
+                <div><div class="gallery-item"><img src="../images/poolside.jpg" alt="Poolside View"></div><h3>Poolside</h3></div>
+                <div><div class="gallery-item"><img src="./images/restaurant.jpg" alt="Restaurant Dining"></div><h3>Restaurant</h3></div>
+                <div><div class="gallery-item"><img src="./images/hotel_exterior.jpg" alt="Hotel Exterior"></div><h3>Hotel Exterior</h3></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. Testimonials Section -->
+    <section id="about" class="testimonials-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>What Our Guests Say</h2>
+                <p>Real stories from our valued guests who loved their stay.</p>
+            </div>
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <p>"An absolutely unforgettable experience... We will definitely be back!"</p>
+                    <div class="testimonial-author">
+                        <img src="https://placehold.co/100x100/333/fff?text=JS" alt="Author Jane Smith">
+                        <div><strong>Jane Smith</strong><span>Stayed in Deluxe Room</span></div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p>"The best hotel I've stayed at in years... Highly recommended!"</p>
+                    <div class="testimonial-author">
+                        <img src="https://placehold.co/100x100/333/fff?text=MD" alt="Author Michael Doe">
+                        <div><strong>Michael Doe</strong><span>Stayed in Executive Suite</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. Footer -->
+    <footer id="contact" class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column"><h4>InnoStay</h4><p>Your ultimate destination for luxury, comfort, and unforgettable memories.</p></div>
+                <div class="footer-column"><h4>Quick Links</h4><ul><li><a href="#rooms">Our Rooms</a></li><li><a href="#about">Testimonials</a></li><li><a href="#contact">Contact Us</a></li><li><a href="login.html">Admin Login</a></li><li><a href="#">Privacy Policy</a></li></ul></div>
+                <div class="footer-column"><h4>Contact Us</h4><p>Santnagar, Shirdi</p><p>+91 987 678 6579</p><p>info@innostay.com</p></div>
+                <div class="footer-column"><h4>Follow Us</h4><div class="social-links"><a href="#">Facebook</a><a href="#">Twitter</a><a href="#">Instagram</a></div></div>
+            </div>
+            <div class="footer-bottom"><p>&copy; 2025 InnoStay. All Rights Reserved.</p></div>
+        </div>
+    </footer>
+
+    <!-- MODALS (NEW CODE) -->
+
+    <!-- Registration Modal -->
+    <div class="modal-overlay hidden" id="register-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Create Your Account</h2>
+            <form id="register-form" autocomplete="off">
+                <div class="form-group-modal"><label for="reg-fullname">Full Name</label><input type="text" id="reg-fullname" autocomplete="off" required></div>
+                <div class="form-group-modal"><label for="reg-username">Username</label><input type="text" id="reg-username" autocomplete="off" required></div>
+                <div class="form-group-modal"><label for="reg-email">Email</label><input type="email" id="reg-email" autocomplete="off" required></div>
+                <div class="form-group-modal"><label for="reg-phone">Phone Number</label><input type="tel" id="reg-phone" autocomplete="off" required></div>
+                <div class="form-group-modal"><label for="reg-password">Password</label><input type="password" id="reg-password" autocomplete="new-password" required></div>
+                <button type="submit" class="btn btn-primary modal-btn">Register</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="modal-overlay hidden" id="login-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Login to Your Account</h2>
+            <form id="loginForm" autocomplete="off">
+                <div class="form-group-modal"><label for="login-username">Username or Email</label><input type="text" id="login-username" autocomplete="off" required></div>
+                <div class="form-group-modal"><label for="login-password">Password</label><input type="password" id="login-password" autocomplete="current-password" required></div>
+                <div class="form-group-modal"><label for="login-role">Login as</label>
+                    <select id="login-role" required>
+                        <option value="user" selected>User</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary modal-btn">Login</button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Admin Modal -->
+    <div class="modal-overlay hidden" id="admin-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Add New Room</h2>
+            <div id="admin-dashboard" class="admin-dashboard">
+                <div class="admin-stats">
+                    <div class="form-group-modal">
+                        <label>Date Filter</label>
+                        <div style="display:flex; gap:8px; align-items:center;">
+                            <input type="date" id="stats-from">
+                            <span>to</span>
+                            <input type="date" id="stats-to">
+                            <button id="stats-apply" class="btn btn-secondary" type="button">Apply</button>
+                        </div>
+                    </div>
+                    <div><strong>Total Rooms:</strong> <span id="stat-total-rooms">-</span></div>
+                    <div><strong>Total Bookings:</strong> <span id="stat-total-bookings">-</span></div>
+                    <div><strong>Active Bookings:</strong> <span id="stat-active-bookings">-</span></div>
+                    <div><strong>Needs Cleaning:</strong> <span id="stat-needs-cleaning">-</span></div>
+                </div>
+                <div class="admin-cleaning-list">
+                    <h3>Rooms Needing Cleaning</h3>
+                    <ul id="cleaning-list"></ul>
+                </div>
+                <div class="admin-charts">
+                    <h3>Bookings per Room</h3>
+                    <canvas id="bookings-chart" width="400" height="180"></canvas>
+                </div>
+                <div class="admin-rooms-table">
+                    <h3>All Rooms</h3>
+                    <table id="rooms-table" class="rooms-table">
+                        <thead><tr><th>Name</th><th>Type</th><th>Capacity</th><th>Price</th><th>Cleaning</th><th>Actions</th></tr></thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <hr>
+            </div>
+            <form id="admin-room-form">
+                <div class="form-group-modal"><label for="room-name">Name</label><input type="text" id="room-name" required></div>
+                <div class="form-group-modal"><label for="room-type">Type</label>
+                    <select id="room-type" required>
+                        <option value="standard">Standard</option>
+                        <option value="deluxe">Deluxe</option>
+                        <option value="suite">Suite</option>
+                    </select>
+                </div>
+                <div class="form-group-modal"><label for="room-capacity">Capacity</label><input type="number" id="room-capacity" min="1" required></div>
+                <div class="form-group-modal"><label for="room-price">Price Per Night</label><input type="number" id="room-price" min="0" required></div>
+                <div class="form-group-modal"><label for="room-amenities">Amenities (comma-separated)</label><input type="text" id="room-amenities"></div>
+                <div class="form-group-modal"><label for="room-images">Image URLs (comma-separated)</label><input type="text" id="room-images"></div>
+                <div class="form-group-modal"><label for="room-description">Description</label><textarea id="room-description"></textarea></div>
+                <button type="submit" class="btn btn-primary modal-btn">Create Room</button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Custom Message Box/Alert -->
+    <div class="message-box hidden" id="message-box">
+        <p id="message-text"></p>
+    </div>
+
+    <!-- Booking Modal -->
+    <div class="modal-overlay hidden" id="booknow-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Complete Your Booking</h2>
+            <form id="book-now-form">
+                <div class="form-group-modal"><label for="bn-room">Room</label>
+                    <select id="bn-room" required>
+                        <option value="" disabled selected>Select a room</option>
+                    </select>
+                </div>
+                <div class="form-group-modal"><label for="bn-checkin">Check-in</label><input type="date" id="bn-checkin" required></div>
+                <div class="form-group-modal"><label for="bn-checkout">Check-out</label><input type="date" id="bn-checkout" required></div>
+                <div class="form-group-modal"><label for="bn-guests">Guests</label><input type="number" id="bn-guests" min="1" value="2" required></div>
+                <hr>
+                <h3>Contact Details</h3>
+                <div class="form-group-modal"><label for="bn-fullname">Full Name</label><input type="text" id="bn-fullname" required></div>
+                <div class="form-group-modal"><label for="bn-email">Email</label><input type="email" id="bn-email" required></div>
+                <div class="form-group-modal"><label for="bn-phone">Phone</label><input type="tel" id="bn-phone" required></div>
+                
+                <!-- Aadhaar Verification Section -->
+                <hr>
+                <h3>Aadhaar Verification</h3>
+                <div class="form-group-modal">
+                    <label for="aadhaar-number">Aadhaar Number</label>
+                    <div class="aadhaar-input-group">
+                        <input type="text" id="aadhaar-number" placeholder="Enter 12-digit Aadhaar" maxlength="12" pattern="\d{12}">
+                        <button type="button" id="verify-aadhaar" class="btn btn-secondary">Verify</button>
+                    </div>
+                </div>
+                
+                <!-- OTP Verification (initially hidden) -->
+                <div id="otp-verification" style="display: none;">
+                    <div class="form-group-modal">
+                        <label for="otp">Enter OTP (check console for OTP in development)</label>
+                        <div class="otp-input-group">
+                            <input type="text" id="otp" placeholder="6-digit OTP" maxlength="6" pattern="\d{6}">
+                            <button type="button" id="verify-otp" class="btn btn-primary">Verify OTP</button>
+                        </div>
+                        <button type="button" id="resend-otp" class="btn-text">Resend OTP</button>
+                    </div>
+                </div>
+                
+                <!-- Hidden field to track verification status -->
+                <input type="hidden" id="aadhaar-verified" value="false">
+                
+                <!-- Customers Section (initially hidden) -->
+                <div id="customer-section" style="display: none;">
+                    <hr>
+                    <h3>Customers</h3>
+                </div>
+                <div id="customers-list"></div>
+                <div class="form-group-modal">
+                    <label>Identity Proofs (one per guest)</label>
+                    <div id="id-proof-list"></div>
+                    <small id="id-proof-help">Upload clear photos of IDs for all guests. Max 5MB each.</small>
+                </div>
+                <button id="add-customer" type="button" class="btn btn-secondary">Add Customer</button>
+                <button type="submit" class="btn btn-primary modal-btn">Book Now</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Link to Your New JavaScript File -->
+    <script>
+        const API_BASE = ['localhost', '127.0.0.1'].includes(window.location.hostname) && window.location.port === '5500' ? 'http://localhost:4001' : window.location.origin;
+        // Function to update UI based on authentication state
+        function updateAuthUI() {
+            try {
+                const user = JSON.parse(localStorage.getItem('currentUser'));
+                const loginLink = document.getElementById('login-link');
+                const registerLink = document.getElementById('register-link');
+                const logoutLink = document.getElementById('logout-link');
+                const userDisplay = document.getElementById('user-display');
+                const bookingsLink = document.getElementById('bookings-link');
+                const adminLink = document.getElementById('admin-link');
+
+                if (user && user.isLoggedIn) {
+                    // User is logged in
+                    if (loginLink) loginLink.classList.add('hidden');
+                    if (registerLink) registerLink.classList.add('hidden');
+                    if (logoutLink) {
+                        logoutLink.classList.remove('hidden');
+                        logoutLink.onclick = function(e) {
+                            e.preventDefault();
+                            // Clear session on server if needed
+                            fetch(`${API_BASE}/api/auth/logout`, {
+                                method: 'POST',
+                                credentials: 'include'
+                            }).finally(() => {
+                                localStorage.removeItem('currentUser');
+                                window.location.href = 'index.html';
+                            });
+                        };
+                    }
+                    if (userDisplay) {
+                        userDisplay.textContent = `Hello, ${user.name || 'User'}`;
+                        userDisplay.classList.remove('hidden');
+                    }
+                    if (bookingsLink) bookingsLink.classList.remove('hidden');
+                    if (adminLink && user.isAdmin) {
+                        adminLink.classList.remove('hidden');
+                    } else if (adminLink) {
+                        adminLink.classList.add('hidden');
+                    }
+                } else {
+                    // User is not logged in
+                    if (loginLink) loginLink.classList.remove('hidden');
+                    if (registerLink) registerLink.classList.remove('hidden');
+                    if (logoutLink) logoutLink.classList.add('hidden');
+                    if (userDisplay) userDisplay.classList.add('hidden');
+                    if (bookingsLink) bookingsLink.classList.add('hidden');
+                    if (adminLink) adminLink.classList.add('hidden');
+                }
+            } catch (e) {
+                console.error('Error updating auth UI:', e);
+            }
+        }
+
+        // Check authentication status on page load
+        function checkAuthStatus() {
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+            if (user && user.token) {
+                // Verify token with server
+                fetch(`${API_BASE}/api/auth/verify`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${user.token}`
+                    },
+                    credentials: 'include'
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Session expired');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Update user data if needed
+                    if (data.user) {
+                        localStorage.setItem('currentUser', JSON.stringify({
+                            ...user,
+                            ...data.user,
+                            isLoggedIn: true
+                        }));
+                    }
+                })
+                .catch(error => {
+                    console.error('Auth verification failed:', error);
+                    localStorage.removeItem('currentUser');
+                })
+                .finally(() => {
+                    updateAuthUI();
+                });
+            } else {
+                updateAuthUI();
+            }
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check URL for login success parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('login') === 'success') {
+                // Remove the parameter from the URL
+                window.history.replaceState({}, document.title, window.location.pathname);
+                
+                // Show welcome message
+                try {
+                    const user = JSON.parse(localStorage.getItem('currentUser'));
+                    if (user) {
+                        setTimeout(() => {
+                            showMessage(`Welcome back, ${user.name || 'User'}!`, 'success');
+                        }, 500);
+                    }
+                } catch (e) {
+                    console.error('Error handling login success:', e);
+                }
+            }
+
+            // Check auth status and update UI
+            checkAuthStatus();
+        });
+
+        // Helper function to show messages
+        function showMessage(message, type = 'info') {
+            // Create message element if it doesn't exist
+            let messageEl = document.getElementById('message-container');
+            if (!messageEl) {
+                messageEl = document.createElement('div');
+                messageEl.id = 'message-container';
+                messageEl.style.position = 'fixed';
+                messageEl.style.top = '20px';
+                messageEl.style.left = '50%';
+                messageEl.style.transform = 'translateX(-50%)';
+                messageEl.style.zIndex = '1000';
+                document.body.appendChild(messageEl);
+            }
+
+            const msg = document.createElement('div');
+            msg.className = `message ${type}`;
+            msg.textContent = message;
+            messageEl.appendChild(msg);
+
+            // Auto-remove after 5 seconds
+            setTimeout(() => {
+                msg.style.opacity = '0';
+                setTimeout(() => msg.remove(), 300);
+            }, 5000);
+        }
+    </script>
+    <style>
+        .message {
+            padding: 12px 24px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            color: white;
+            font-weight: 500;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            animation: slideIn 0.3s ease-out;
+            opacity: 0.95;
+            transition: opacity 0.3s ease;
+        }
+        .message.success { background-color: #28a745; }
+        .message.error { background-color: #dc3545; }
+        .message.info { background-color: #17a2b8; }
+        @keyframes slideIn {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 0.95; }
+        }
+    </style>
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check for login success parameter in URL
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('login') === 'success') {
+                // Remove the parameter from the URL
+                window.history.replaceState({}, document.title, window.location.pathname);
+                
+                // Get user name if available
+                const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+                const name = currentUser.fullname || currentUser.name || 'User';
+                
+                // Show success message
+                const successMessage = document.createElement('div');
+                successMessage.className = 'message success';
+                successMessage.style.position = 'fixed';
+                successMessage.style.top = '20px';
+                successMessage.style.left = '50%';
+                successMessage.style.transform = 'translateX(-50%)';
+                successMessage.style.zIndex = '1000';
+                successMessage.textContent = `Welcome back, ${name}!`;
+                document.body.appendChild(successMessage);
+                
+                // Remove message after 3 seconds
+                setTimeout(() => {
+                    successMessage.style.opacity = '0';
+                    setTimeout(() => successMessage.remove(), 300);
+                }, 3000);
+            }
+        });
+    </script>
+</body>
+</html>

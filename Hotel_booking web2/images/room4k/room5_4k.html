@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+            font-family: Arial, sans-serif;
+        }
+        .image-container {
+            width: 1200px;
+            height: 800px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin: 0 auto 20px;
+            overflow: hidden;
+            position: relative;
+        }
+        .room-image {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+        .bed-area {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 40%;
+            background: linear-gradient(135deg, #059669 0%, #10B981 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .bed {
+            width: 80%;
+            height: 60%;
+            background: white;
+            border-radius: 10px;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .pillow {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70%;
+            height: 30px;
+            background: #f8f9fa;
+            border-radius: 50%;
+        }
+        .window {
+            position: absolute;
+            top: 10%;
+            left: 10%;
+            width: 25%;
+            height: 50%;
+            background: linear-gradient(135deg, #87CEEB 0%, #6BB6FF 100%);
+            border-radius: 10px;
+            box-shadow: inset 0 2px 5px rgba(255,255,255,0.3);
+        }
+        .window-frame {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            right: 5px;
+            bottom: 5px;
+            border: 3px solid #4A5568;
+            border-radius: 5px;
+        }
+        .side-table {
+            position: absolute;
+            right: 5%;
+            top: 15%;
+            width: 25%;
+            height: 30%;
+            background: linear-gradient(135deg, #D4A574 0%, #8B4513 100%);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .lamp {
+            position: absolute;
+            top: -10%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, #FFD700, #FFA500);
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(255,215,0,0.3);
+        }
+        .floor {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 10%;
+            background: linear-gradient(90deg, #8B7355 0%, #A0522D 100%);
+            border-top: 2px solid #6B7280;
+        }
+        .wall-art {
+            position: absolute;
+            top: 20%;
+            left: 5%;
+            width: 15%;
+            height: 30%;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            border-radius: 10px;
+            opacity: 0.8;
+        }
+        .quality-label {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 18px;
+            box-shadow: 0 4px 15px rgba(76,175,80,0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="image-container">
+        <div class="quality-label">4K Room 5</div>
+        <div class="room-image">
+            <div class="wall-art"></div>
+            <div class="window"></div>
+            <div class="lamp"></div>
+            <div class="side-table"></div>
+            <div class="floor"></div>
+            <div class="bed-area">
+                <div class="bed">
+                    <div class="pillow"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,194 @@
+<!-- Main Content: Rooms Listing -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Rooms & Suites - InnoStay</title>
+    
+    <!-- This is the line you add -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <img src="./images/Innostay_logo-removebg-preview.png" alt="InnoStay Logo">
+                <span>InnoStay</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="index.html#amenities">Amenities</a>
+            </div>
+        </div>
+    </nav>
+<main class="container page-content">
+
+    <!-- Section 3: Executive Suites -->
+    <section class="room-category" id="executive-suites">
+        <div class="section-header">
+            <h2>Executive Suites</h2>
+            <p>The pinnacle of luxury with expansive spaces and premium amenities.</p>
+        </div>
+        <div class="detailed-room-grid">
+            <!-- Executive Suite 1 -->
+            <div class="detailed-room-card">
+                <img src="./images/executive_room1.jpg" alt="Executive Suite 1">
+                <div class="detailed-room-content">
+                    <h3>Presidential Suite</h3>
+                    <div class="room-meta">
+                        <span><strong>Price:</strong> Rs.48,400 / night</span>
+                        <span><strong>Beds:</strong> 1 King Bed, 1 Sofa Bed</span>
+                    </div>
+                    <div class="room-actions">
+                        <a href="executive_suite_rooms.html" class="btn btn-secondary">View Details</a>
+                        <a href="#" class="btn btn-primary">Book Now</a>
+                    </div>
+                </div>
+            </div>
+             <!-- Executive Suite 2 -->
+            <div class="detailed-room-card">
+                <img src="./images/executive_room2.jpg" alt="Executive Suite 2">
+                <div class="detailed-room-content">
+                    <h3>Terrace Suite</h3>
+                    <div class="room-meta">
+                        <span><strong>Price:</strong> Rs.39,600 / night</span>
+                        <span><strong>Beds:</strong> 1 King Bed</span>
+                    </div>
+                    <div class="room-actions">
+                        <a href="executive_suite_rooms.html" class="btn btn-secondary">View Details</a>
+                        <a href="#" class="btn btn-primary">Book Now</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Executive Suite 3 -->
+            <div class="detailed-room-card">
+                <img src="./images/executive_room3.jpg" alt="Executive Suite 3">
+                <div class="detailed-room-content">
+                    <h3>Panoramic Suite</h3>
+                    <div class="room-meta">
+                        <span><strong>Price:</strong> Rs.42,240 / night</span>
+                        <span><strong>Beds:</strong> 1 King Bed</span>
+                    </div>
+                    <div class="room-actions">
+                        <a href="executive_suite_rooms.html" class="btn btn-secondary">View Details</a>
+                        <a href="#" class="btn btn-primary">Book Now</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Executive Suite 4 -->
+            <div class="detailed-room-card">
+                <img src="./images/executive_room4.jpg" alt="Executive Suite 4">
+                <div class="detailed-room-content">
+                    <h3>Junior Suite</h3>
+                    <div class="room-meta">
+                        <span><strong>Price:</strong> Rs.33,440 / night</span>
+                        <span><strong>Beds:</strong> 1 King Bed</span>
+                    </div>
+                    <div class="room-actions">
+                        <a href="executive_suite_rooms.html" class="btn btn-secondary">View Details</a>
+                        <a href="#" class="btn btn-primary">Book Now</a>
+                    </div>
+                </div>
+            </div>
+             <!-- Executive Suite 5 -->
+            <div class="detailed-room-card">
+                <img src="./images/executive_room5.jpg" alt="Executive Suite 5">
+                <div class="detailed-room-content">
+                    <h3>Executive Family Suite</h3>
+                    <div class="room-meta">
+                        <span><strong>Price:</strong> Rs.45,760 / night</span>
+                        <span><strong>Beds:</strong> 2 King Beds</span>
+                    </div>
+                    <div class="room-actions">
+                        <a href="executive_suite_rooms.html" class="btn btn-secondary">View Details</a>
+                        <a href="#" class="btn btn-primary">Book Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer class="footer" width=""><div class="container"><div class="footer-bottom"><p>&copy; 2025 InnoStay. All Rights Reserved. | <a href="index.html#rooms">Back to Rooms and Suites</a></p></div></div></footer>
+
+</main>
+<script>
+// Inline booking modal for Suites
+(function(){
+  const API_BASE = ['localhost', '127.0.0.1'].includes(window.location.hostname) && window.location.port === '5500' ? 'http://localhost:4001' : window.location.origin;
+  const modal = document.createElement('div');
+  modal.className = 'modal-overlay hidden';
+  modal.id = 'suite-booking-modal';
+  modal.innerHTML = `
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h2>Book Executive Suite</h2>
+      <form id="suite-booking-form">
+        <div class="form-group-modal" style="display:none"><label>Room</label><select id="suite-room"></select></div>
+        <div class="form-group-modal"><label>Selected Sub-room</label><input type="text" id="suite-subroom" readonly></div>
+        <div class="form-group-modal"><label>Price</label><input type="text" id="suite-price" readonly></div>
+        <div class="form-group-modal"><label>Check-in</label><input type="date" id="suite-checkin" required></div>
+        <div class="form-group-modal"><label>Check-out</label><input type="date" id="suite-checkout" required></div>
+        <div class="form-group-modal"><label>Guests</label><input type="number" id="suite-guests" min="1" value="2" required></div>
+        <div class="form-group-modal"><label>Full Name</label><input type="text" id="suite-fullname" required></div>
+        <div class="form-group-modal"><label>Email</label><input type="email" id="suite-email" required></div>
+        <div class="form-group-modal"><label>Phone</label><input type="tel" id="suite-phone" required></div>
+        <button type="submit" class="btn btn-primary">Book Now</button>
+      </form>
+    </div>`;
+  document.body.appendChild(modal);
+  const closeBtn = modal.querySelector('.close-modal');
+  const hide = () => modal.classList.add('hidden');
+  const show = () => modal.classList.remove('hidden');
+  if (closeBtn) closeBtn.addEventListener('click', hide);
+
+  async function loadRooms() {
+    const res = await fetch(`${API_BASE}/api/rooms`);
+    const data = await res.json();
+    const rooms = (data.rooms||[]).filter(r => String(r.type).toLowerCase()==='suite');
+    const select = document.getElementById('suite-room');
+    select.innerHTML = '';
+    rooms.forEach(r=>{ const o=document.createElement('option'); o.value=r._id; o.textContent=`${r.name} - ₹${r.pricePerNight}/night`; select.appendChild(o); });
+  }
+
+  document.querySelectorAll('.room-actions .btn.btn-primary').forEach(btn => {
+    btn.addEventListener('click', async function(e){
+      e.preventDefault();
+      if (!localStorage.getItem('token')) { alert('Please login to book.'); return; }
+      await loadRooms();
+      const card = this.closest('.detailed-room-card');
+      const title = card ? (card.querySelector('h3')?.textContent || '') : '';
+      const subInput = document.getElementById('suite-subroom');
+      if (subInput) subInput.value = title;
+      const metaPrice = card ? (card.querySelector('.room-meta span')?.textContent || '') : '';
+      const priceInput = document.getElementById('suite-price');
+      if (priceInput) priceInput.value = metaPrice.replace('Price:','').trim();
+      const roomSel = document.getElementById('suite-room');
+      if (roomSel && roomSel.options.length) roomSel.selectedIndex = 0;
+      show();
+    });
+  });
+
+  const form = document.getElementById('suite-booking-form');
+  form.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    const token = localStorage.getItem('token');
+    if (!token) { alert('Please login to book.'); return; }
+    const payload = {
+      roomId: document.getElementById('suite-room').value,
+      checkIn: document.getElementById('suite-checkin').value,
+      checkOut: document.getElementById('suite-checkout').value,
+      guests: parseInt(document.getElementById('suite-guests').value,10),
+      contact: { fullName: document.getElementById('suite-fullname').value, email: document.getElementById('suite-email').value, phone: document.getElementById('suite-phone').value },
+      customers: [],
+      selectedSubroom: document.getElementById('suite-subroom').value
+    };
+    const res = await fetch(`${API_BASE}/api/bookings`, { method:'POST', headers:{'Content-Type':'application/json', Authorization:`Bearer ${token}`}, body: JSON.stringify(payload)});
+    const data = await res.json().catch(()=>({}));
+    if (res.ok) {
+      hide();
+      const pdfRes = await fetch(`${API_BASE}/api/bookings/${data.booking._id}/receipt`, { headers:{Authorization:`Bearer ${token}`} });
+      if (pdfRes.ok) { const blob = await pdfRes.blob(); const url = URL.createObjectURL(blob); window.open(url,'_blank'); setTimeout(()=>URL.revokeObjectURL(url),60000); }
+      alert('Booking confirmed!');
+    } else {
+      alert(data.message || 'Booking failed');
+    }
+  });
+})();
+</script>

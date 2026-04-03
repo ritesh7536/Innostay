@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+            font-family: Arial, sans-serif;
+        }
+        .hotel-room {
+            width: 1200px;
+            height: 800px;
+            background: linear-gradient(180deg, #E8F5E8 0%, #C8E6C9 100%);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin: 0 auto;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        /* Floor */
+        .floor {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 120px;
+            background: linear-gradient(90deg, #1B5E20 0%, #4CAF50 50%, #1B5E20 100%);
+            box-shadow: inset 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        /* Wall */
+        .wall {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 680px;
+            background: linear-gradient(180deg, #FFFFFF 0%, #E8F5E8 100%);
+            box-shadow: inset 0 0 30px rgba(0,0,0,0.1);
+        }
+        
+        /* Single Bed */
+        .single-bed {
+            position: absolute;
+            bottom: 120px;
+            right: 200px;
+            width: 320px;
+            height: 240px;
+            background: linear-gradient(180deg, #FFFFFF 0%, #F0F0F0 100%);
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .bed-headboard {
+            position: absolute;
+            top: -50px;
+            left: 0;
+            right: 0;
+            height: 70px;
+            background: linear-gradient(180deg, #388E3C 0%, #2E7D32 100%);
+            border-radius: 10px 10px 0 0;
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .mattress {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            bottom: 20px;
+            background: linear-gradient(180deg, #FFFFFF 0%, #E8E8E8 100%);
+            border-radius: 6px;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .pillow {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 260px;
+            height: 50px;
+            background: linear-gradient(180deg, #FFFFFF 0%, #F5F5F5 100%);
+            border-radius: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .blanket {
+            position: absolute;
+            top: 70px;
+            left: 20px;
+            right: 20px;
+            bottom: 20px;
+            background: linear-gradient(180deg, #4CAF50 0%, #388E3C 100%);
+            border-radius: 6px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        /* Compact Nightstand */
+        .compact-nightstand {
+            position: absolute;
+            bottom: 120px;
+            right: 540px;
+            width: 100px;
+            height: 150px;
+            background: linear-gradient(180deg, #8B4513 0%, #654321 100%);
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .nightstand-top {
+            position: absolute;
+            top: -6px;
+            left: -3px;
+            right: -3px;
+            height: 12px;
+            background: linear-gradient(180deg, #D4A574 0%, #8B4513 100%);
+            border-radius: 5px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+        
+        /* Compact Lamp */
+        .compact-lamp {
+            position: absolute;
+            top: -70px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 50px;
+        }
+        
+        .lamp-base {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 15px;
+            background: linear-gradient(180deg, #FFD700 0%, #FFA500 100%);
+            border-radius: 4px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+        }
+        
+        .lamp-pole {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 45px;
+            background: linear-gradient(180deg, #FFD700 0%, #FFA500 100%);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .lamp-shade {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 30px;
+            background: linear-gradient(180deg, #FFF8DC 0%, #F0E68C 100%);
+            border-radius: 25px 25px 0 0;
+            box-shadow: 0 5px 15px rgba(255,215,0,0.3);
+        }
+        
+        /* Study Desk */
+        .study-desk {
+            position: absolute;
+            bottom: 120px;
+            left: 100px;
+            width: 280px;
+            height: 140px;
+            background: linear-gradient(180deg, #8B4513 0%, #654321 100%);
+            border-radius: 6px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+        
+        .desk-top {
+            position: absolute;
+            top: -8px;
+            left: -4px;
+            right: -4px;
+            height: 16px;
+            background: linear-gradient(180deg, #D4A574 0%, #8B4513 100%);
+            border-radius: 6px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        /* Office Chair */
+        .office-chair {
+            position: absolute;
+            bottom: 120px;
+            left: 400px;
+            width: 100px;
+            height: 130px;
+            background: linear-gradient(180deg, #2E7D32 0%, #1B5E20 100%);
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .chair-back {
+            position: absolute;
+            top: -50px;
+            left: 0;
+            right: 0;
+            height: 70px;
+            background: linear-gradient(180deg, #2E7D32 0%, #1B5E20 100%);
+            border-radius: 8px 8px 0 0;
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.2);
+        }
+        
+        /* Window */
+        .window {
+            position: absolute;
+            top: 80px;
+            left: 150px;
+            width: 300px;
+            height: 350px;
+            background: linear-gradient(135deg, #87CEEB 0%, #6BB6FF 50%, #87CEEB 100%);
+            border: 10px solid #654321;
+            border-radius: 8px;
+            box-shadow: inset 0 0 25px rgba(255,255,255,0.5), 0 8px 25px rgba(0,0,0,0.3);
+        }
+        
+        .window-frame {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 85%;
+            height: 85%;
+            border: 6px solid #654321;
+            border-radius: 6px;
+        }
+        
+        /* Bookshelf */
+        .bookshelf {
+            position: absolute;
+            bottom: 120px;
+            left: 680px;
+            width: 180px;
+            height: 250px;
+            background: linear-gradient(180deg, #8B4513 0%, #654321 100%);
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .shelf-1 {
+            position: absolute;
+            top: 20px;
+            left: 10px;
+            right: 10px;
+            height: 8px;
+            background: linear-gradient(180deg, #654321 0%, #4A3020 100%);
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .shelf-2 {
+            position: absolute;
+            top: 90px;
+            left: 10px;
+            right: 10px;
+            height: 8px;
+            background: linear-gradient(180deg, #654321 0%, #4A3020 100%);
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .shelf-3 {
+            position: absolute;
+            top: 160px;
+            left: 10px;
+            right: 10px;
+            height: 8px;
+            background: linear-gradient(180deg, #654321 0%, #4A3020 100%);
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        /* Books */
+        .book {
+            position: absolute;
+            background: linear-gradient(180deg, #4CAF50 0%, #388E3C 100%);
+            border-radius: 2px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .book-1 {
+            top: 30px;
+            left: 20px;
+            width: 20px;
+            height: 50px;
+        }
+        
+        .book-2 {
+            top: 30px;
+            left: 45px;
+            width: 25px;
+            height: 50px;
+            background: linear-gradient(180deg, #2196F3 0%, #1976D2 100%);
+        }
+        
+        .book-3 {
+            top: 30px;
+            left: 75px;
+            width: 18px;
+            height: 50px;
+            background: linear-gradient(180deg, #FF9800 0%, #F57C00 100%);
+        }
+        
+        .book-4 {
+            top: 30px;
+            left: 98px;
+            width: 22px;
+            height: 50px;
+            background: linear-gradient(180deg, #9C27B0 0%, #7B1FA2 100%);
+        }
+        
+        .book-5 {
+            top: 100px;
+            left: 20px;
+            width: 30px;
+            height: 50px;
+            background: linear-gradient(180deg, #F44336 0%, #D32F2F 100%);
+        }
+        
+        .book-6 {
+            top: 100px;
+            left: 55px;
+            width: 20px;
+            height: 50px;
+            background: linear-gradient(180deg, #009688 0%, #00796B 100%);
+        }
+        
+        .book-7 {
+            top: 100px;
+            left: 80px;
+            width: 25px;
+            height: 50px;
+            background: linear-gradient(180deg, #FFC107 0%, #FF9800 100%);
+        }
+        
+        /* Wall Art */
+        .wall-art {
+            position: absolute;
+            top: 120px;
+            right: 100px;
+            width: 160px;
+            height: 220px;
+            background: linear-gradient(135deg, #4CAF50 0%, #8BC34A 50%, #4CAF50 100%);
+            border: 12px solid #8B4513;
+            border-radius: 8px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+        
+        .artwork-frame {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            right: 12px;
+            bottom: 12px;
+            background: linear-gradient(135deg, #81C784 0%, #A5D6A7 50%, #81C784 100%);
+            border-radius: 6px;
+        }
+        
+        /* Quality Badge */
+        .quality-label {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #4CAF50 0%, #45A049 100%);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 18px;
+            box-shadow: 0 5px 20px rgba(76,175,80,0.4);
+            z-index: 10;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+    </style>
+</head>
+<body>
+    <div class="hotel-room">
+        <div class="quality-label">4K Solo Room</div>
+        <div class="wall"></div>
+        <div class="floor"></div>
+        <div class="window">
+            <div class="window-frame"></div>
+        </div>
+        <div class="wall-art">
+            <div class="artwork-frame"></div>
+        </div>
+        <div class="single-bed">
+            <div class="bed-headboard"></div>
+            <div class="mattress">
+                <div class="pillow"></div>
+                <div class="blanket"></div>
+            </div>
+        </div>
+        <div class="compact-nightstand">
+            <div class="nightstand-top"></div>
+            <div class="compact-lamp">
+                <div class="lamp-shade"></div>
+                <div class="lamp-pole"></div>
+                <div class="lamp-base"></div>
+            </div>
+        </div>
+        <div class="study-desk">
+            <div class="desk-top"></div>
+        </div>
+        <div class="office-chair">
+            <div class="chair-back"></div>
+        </div>
+        <div class="bookshelf">
+            <div class="shelf-1"></div>
+            <div class="shelf-2"></div>
+            <div class="shelf-3"></div>
+            <div class="book book-1"></div>
+            <div class="book book-2"></div>
+            <div class="book book-3"></div>
+            <div class="book book-4"></div>
+            <div class="book book-5"></div>
+            <div class="book book-6"></div>
+            <div class="book book-7"></div>
+        </div>
+    </div>
+</body>
+</html>

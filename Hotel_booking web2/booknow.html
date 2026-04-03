@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Your Stay - InnoStay</title>
+    <link rel="icon" type="image/x-icon" href="./favicon.ico">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #007bff;
+            --primary-dark: #0056b3;
+            --success-color: #28a745;
+            --danger-color: #dc3545;
+            --warning-color: #ffc107;
+            --text-dark: #2c3e50;
+            --text-light: #6c757d;
+            --border-color: #dee2e6;
+            --bg-light: #f8f9fa;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: var(--text-dark);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .booking-content {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 0;
+        }
+
+        .booking-form-section {
+            padding: 40px;
+        }
+
+        .booking-summary {
+            background: var(--bg-light);
+            padding: 40px;
+            border-left: 1px solid var(--border-color);
+        }
+
+        .section-title {
+            font-size: 1.5em;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+        }
+
+        .form-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .room-card {
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .room-card:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .room-card.selected {
+            border-color: var(--primary-color);
+            background: rgba(0,123,255,0.05);
+        }
+
+        .room-card input[type="radio"] {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .room-info h4 {
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        .room-info .price {
+            font-size: 1.5em;
+            color: var(--primary-color);
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .room-info .details {
+            color: var(--text-light);
+            font-size: 0.9em;
+        }
+
+        .customer-item {
+            background: var(--bg-light);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .remove-customer {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--danger-color);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,123,255,0.3);
+        }
+
+        .btn-secondary {
+            background: var(--text-light);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-block {
+            width: 100%;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+
+        .summary-item.total {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: var(--primary-color);
+            padding-top: 20px;
+            margin-top: 10px;
+            border-top: 2px solid var(--primary-color);
+        }
+
+        .file-upload {
+            border: 2px dashed var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .file-upload:hover {
+            border-color: var(--primary-color);
+            background: rgba(0,123,255,0.05);
+        }
+
+        .file-upload input {
+            display: none;
+        }
+
+        .file-list {
+            margin-top: 10px;
+        }
+
+        .file-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            background: var(--bg-light);
+            border-radius: 5px;
+            margin-top: 5px;
+        }
+
+        .alert {
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .spinner {
+            border: 4px solid var(--border-color);
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 968px) {
+            .booking-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .booking-summary {
+                border-left: none;
+                border-top: 1px solid var(--border-color);
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏨 Complete Your Booking</h1>
+            <p>Fill in your details to reserve your perfect stay at InnoStay</p>
+        </div>
+
+        <div class="booking-content">
+            <div class="booking-form-section">
+                <form id="bookingForm">
+                    <!-- Room Selection -->
+                    <div class="form-section">
+                        <h3>1. Select Your Room</h3>
+                        <div id="roomsContainer">
+                            <div class="loading">
+                                <div class="spinner"></div>
+                                <p>Loading rooms...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Booking Details -->
+                    <div class="form-section">
+                        <h3>2. Booking Details</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="checkIn">Check-in Date *</label>
+                                <input type="date" id="checkIn" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="checkOut">Check-out Date *</label>
+                                <input type="date" id="checkOut" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="guests">Number of Guests *</label>
+                            <input type="number" id="guests" min="1" max="10" value="2" required>
+                        </div>
+                    </div>
+
+                    <!-- Contact Information -->
+                    <div class="form-section">
+                        <h3>3. Contact Information</h3>
+                        <div class="form-group">
+                            <label for="fullName">Full Name *</label>
+                            <input type="text" id="fullName" placeholder="Enter your full name" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="email">Email Address *</label>
+                                <input type="email" id="email" placeholder="your@email.com" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone Number *</label>
+                                <input type="tel" id="phone" placeholder="+1234567890" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Aadhaar Verification -->
+                    <div class="form-section">
+                        <h3>4. Identity Verification</h3>
+                        <div class="form-group">
+                            <label for="aadhaarNumber">Aadhaar Number *</label>
+                            <div style="display: flex; gap: 10px;">
+                                <input type="text" id="aadhaarNumber" placeholder="Enter 12-digit Aadhaar Number" maxlength="12" pattern="\d{12}" required style="flex: 1;">
+                                <button type="button" class="btn btn-primary" id="sendOtpBtn">Send OTP</button>
+                            </div>
+                        </div>
+                        
+                        <div id="otpSection" style="display: none; margin-top: 15px;">
+                            <div class="form-group">
+                                <label for="otpInput">Enter OTP *</label>
+                                <div style="display: flex; gap: 10px;">
+                                    <input type="text" id="otpInput" placeholder="Enter 6-digit OTP" maxlength="6" pattern="\d{6}" style="flex: 1;">
+                                    <button type="button" class="btn btn-success" id="verifyOtpBtn" style="background-color: var(--success-color); color: white;">Verify OTP</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="aadhaarMessage" style="margin-top: 10px;"></div>
+                    </div>
+
+                    <!-- Guest Details -->
+                    <div class="form-section">
+                        <h3>5. Guest Details</h3>
+                        <div id="customersContainer"></div>
+                        <button type="button" class="btn btn-secondary" id="addCustomerBtn">+ Add Guest</button>
+                    </div>
+
+                    <!-- ID Proof Upload -->
+                    <div class="form-section">
+                        <h3>5. Upload ID Proofs</h3>
+                        <div class="file-upload" id="fileUploadArea">
+                            <input type="file" id="fileInput" multiple accept="image/*,.pdf">
+                            <p>📎 Click to upload or drag & drop ID proofs</p>
+                            <small>Upload clear photos of IDs for all guests (Max 5MB each)</small>
+                        </div>
+                        <div class="file-list" id="fileList"></div>
+                    </div>
+
+                    <!-- Special Requests -->
+                    <div class="form-section">
+                        <h3>6. Special Requests (Optional)</h3>
+                        <div class="form-group">
+                            <textarea id="specialRequests" rows="4" placeholder="Any special requests or requirements..."></textarea>
+                        </div>
+                    </div>
+
+                    <div id="messageContainer"></div>
+
+                    <!-- Original submit button removed, moved to Booking Summary -->
+                </form>
+            </div>
+
+            <div class="booking-summary">
+                <h2 class="section-title">Booking Summary</h2>
+                <div id="summaryContent">
+                    <div class="summary-item">
+                        <span>Room:</span>
+                        <strong id="summaryRoom">Not selected</strong>
+                    </div>
+                    <div class="summary-item">
+                        <span>Check-in:</span>
+                        <strong id="summaryCheckIn">-</strong>
+                    </div>
+                    <div class="summary-item">
+                        <span>Check-out:</span>
+                        <strong id="summaryCheckOut">-</strong>
+                    </div>
+                    <div class="summary-item">
+                        <span>Nights:</span>
+                        <strong id="summaryNights">0</strong>
+                    </div>
+                    <div class="summary-item">
+                        <span>Guests:</span>
+                        <strong id="summaryGuests">2</strong>
+                    </div>
+                    <div class="summary-item">
+                        <span>Price per night:</span>
+                        <strong id="summaryPricePerNight">Rs. 0</strong>
+                    </div>
+                    <div class="summary-item total">
+                        <span>Total Amount:</span>
+                        <strong id="summaryTotal">Rs. 0</strong>
+                    </div>
+
+                    <!-- Payment Gateway Section -->
+                    <div class="payment-section" style="margin-top: 25px; padding-top: 20px; border-top: 2px dashed #e2e8f0;">
+                        <h4 style="margin-bottom: 15px; color: var(--primary-dark); font-size: 1.1rem;">Select Payment Method</h4>
+                        
+                        <div class="payment-options" style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px;">
+                            <label class="payment-option selected" style="display: flex; align-items: center; gap: 12px; padding: 12px; border: 2px solid var(--primary-color); background: rgba(37, 99, 235, 0.05); border-radius: 8px; cursor: pointer; transition: all 0.2s ease;">
+                                <input type="radio" name="paymentMethod" value="card" form="bookingForm" checked style="accent-color: var(--primary-color);">
+                                <span style="font-weight: 500;">💳 Credit/Debit Card</span>
+                            </label>
+                            
+                            <label class="payment-option" style="display: flex; align-items: center; gap: 12px; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; cursor: pointer; transition: all 0.2s ease;">
+                                <input type="radio" name="paymentMethod" value="upi" form="bookingForm" style="accent-color: var(--primary-color);">
+                                <span style="font-weight: 500;">📱 UPI / QR Code</span>
+                            </label>
+                            
+                            <label class="payment-option" style="display: flex; align-items: center; gap: 12px; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; cursor: pointer; transition: all 0.2s ease;">
+                                <input type="radio" name="paymentMethod" value="netbanking" form="bookingForm" style="accent-color: var(--primary-color);">
+                                <span style="font-weight: 500;">🏦 Net Banking</span>
+                            </label>
+                        </div>
+
+                        <button type="submit" form="bookingForm" class="btn btn-primary btn-block" id="submitBtn" style="width: 100%; padding: 14px; font-size: 1.1rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
+                            Pay & Complete Booking 🔒
+                        </button>
+                        <p style="text-align: center; margin-top: 10px; font-size: 0.85rem; color: #64748b;">
+                            <small>Secure Payment Gateway Encrypted</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+        const API_BASE = ['localhost', '127.0.0.1'].includes(window.location.hostname) && window.location.port === '5500' ? 'http://localhost:4001' : window.location.origin;
+        let currentTotalAmount = 0; // Track total amount globally
+        let selectedRoom = null;
+        let allRooms = [];
+        let uploadedFiles = [];
+        let customerCount = 0;
+
+        // Get current user from localStorage
+        let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        const token = localStorage.getItem('token');
+
+        // Verify authentication with backend
+        async function verifyAuth() {
+            // Check for token primarily
+            if (!token) {
+                console.log('No token found, redirecting to login');
+                handleAuthFailure();
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/api/auth/me`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Authentication failed');
+                }
+
+                const userData = await response.json();
+                
+                // Construct user object if currentUser is missing or stale
+                if (!currentUser) {
+                    currentUser = {
+                        ...userData.user,
+                        token: token,
+                        isLoggedIn: true
+                    };
+                } else {
+                    currentUser = { ...currentUser, ...userData.user };
+                }
+                
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                
+                // Pre-fill user data after verification
+                if (currentUser) {
+                    const nameInput = document.getElementById('fullName');
+                    const emailInput = document.getElementById('email');
+                    
+                    if (nameInput && !nameInput.value) nameInput.value = currentUser.fullname || currentUser.name || '';
+                    if (emailInput && !emailInput.value) emailInput.value = currentUser.email || '';
+                }
+            } catch (error) {
+                console.error('Auth verification error:', error);
+                handleAuthFailure();
+            }
+        }
+
+        function handleAuthFailure() {
+            // Clear stale data
+            localStorage.removeItem('currentUser');
+            localStorage.removeItem('token');
+            localStorage.removeItem('isLoggedIn');
+            
+            if (confirm('You need to be logged in to make a booking. Go to login page?')) {
+                window.location.href = 'login.html?redirect=booknow.html';
+            } else {
+                // If they cancel, maybe redirect to home or disable form
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Initialize auth check
+        verifyAuth();
+
+        // Aadhaar Verification Logic
+        document.getElementById('sendOtpBtn').addEventListener('click', async () => {
+            const aadhaarInput = document.getElementById('aadhaarNumber');
+            const aadhaarNumber = aadhaarInput.value;
+            const messageDiv = document.getElementById('aadhaarMessage');
+
+            if (!/^\d{12}$/.test(aadhaarNumber)) {
+                messageDiv.innerHTML = '<span style="color: red;">Please enter a valid 12-digit Aadhaar number</span>';
+                return;
+            }
+
+            try {
+                const btn = document.getElementById('sendOtpBtn');
+                btn.disabled = true;
+                btn.textContent = 'Sending...';
+
+                const response = await fetch(`${API_BASE}/api/verify/generate-otp`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ aadhaarNumber })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    messageDiv.innerHTML = '<span style="color: green;">OTP sent! Check your console/terminal.</span>';
+                    document.getElementById('otpSection').style.display = 'block';
+                    aadhaarInput.disabled = true;
+                } else {
+                    messageDiv.innerHTML = `<span style="color: red;">${data.message}</span>`;
+                    btn.disabled = false;
+                    btn.textContent = 'Send OTP';
+                }
+            } catch (error) {
+                console.error('OTP Error:', error);
+                messageDiv.innerHTML = '<span style="color: red;">Failed to send OTP</span>';
+                document.getElementById('sendOtpBtn').disabled = false;
+                document.getElementById('sendOtpBtn').textContent = 'Send OTP';
+            }
+        });
+
+        document.getElementById('verifyOtpBtn').addEventListener('click', async () => {
+            const aadhaarNumber = document.getElementById('aadhaarNumber').value;
+            const otpInput = document.getElementById('otpInput');
+            const otp = otpInput.value;
+            const messageDiv = document.getElementById('aadhaarMessage');
+
+            if (!/^\d{6}$/.test(otp)) {
+                messageDiv.innerHTML = '<span style="color: red;">Please enter a valid 6-digit OTP</span>';
+                return;
+            }
+
+            try {
+                const btn = document.getElementById('verifyOtpBtn');
+                btn.disabled = true;
+                btn.textContent = 'Verifying...';
+
+                const response = await fetch(`${API_BASE}/api/verify/check-otp`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ aadhaarNumber, otp })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    isIdentityVerified = true;
+                    messageDiv.innerHTML = '<span style="color: green;">✓ Identity Verified Successfully</span>';
+                    document.getElementById('otpSection').style.display = 'none';
+                    document.getElementById('sendOtpBtn').style.display = 'none';
+                    document.getElementById('aadhaarNumber').style.borderColor = 'green';
+                } else {
+                    messageDiv.innerHTML = `<span style="color: red;">${data.message}</span>`;
+                    btn.disabled = false;
+                    btn.textContent = 'Verify OTP';
+                }
+            } catch (error) {
+                console.error('Verification Error:', error);
+                messageDiv.innerHTML = '<span style="color: red;">Verification failed</span>';
+                document.getElementById('verifyOtpBtn').disabled = false;
+                document.getElementById('verifyOtpBtn').textContent = 'Verify OTP';
+            }
+        });
+
+        // Pre-fill form from URL parameters
+        function prefillFromURL() {
+            const params = new URLSearchParams(window.location.search);
+            const checkIn = params.get('checkin');
+            const checkOut = params.get('checkout');
+            const guests = params.get('guests');
+
+            if (checkIn) document.getElementById('checkIn').value = checkIn;
+            if (checkOut) document.getElementById('checkOut').value = checkOut;
+            if (guests) document.getElementById('guests').value = guests;
+            
+            // Trigger summary update if values exist
+            if (checkIn || checkOut || guests) {
+                updateSummary();
+            }
+        }
+        
+        // Call prefill after DOM load (or immediately since we are at end of body)
+        prefillFromURL();
+
+        // Load rooms from API
+        async function loadRooms() {
+            const container = document.getElementById('roomsContainer');
+            container.innerHTML = '<div class="loading"><div class="spinner"></div><p>Loading rooms...</p></div>';
+
+            try {
+                const response = await fetch(`${API_BASE}/api/rooms`);
+                const data = await response.json();
+                allRooms = data.rooms || data;
+
+                if (allRooms.length === 0) {
+                    container.innerHTML = '<p>No rooms available</p>';
+                    return;
+                }
+
+                // Group rooms by type
+                const grouped = {
+                    standard: [],
+                    deluxe: [],
+                    suite: []
+                };
+
+                allRooms.forEach(room => {
+                    const type = room.type.toLowerCase();
+                    if (grouped[type]) {
+                        grouped[type].push(room);
+                    } else {
+                        // Fallback for unknown types
+                        if (!grouped['other']) grouped['other'] = [];
+                        grouped['other'].push(room);
+                    }
+                });
+
+                let html = '';
+                const typeLabels = {
+                    standard: 'Standard Rooms',
+                    deluxe: 'Deluxe Rooms',
+                    suite: 'Executive Suites',
+                    other: 'Other Rooms'
+                };
+
+                Object.keys(grouped).forEach(type => {
+                    if (grouped[type].length > 0) {
+                        html += `
+                            <div class="room-category-section" style="margin-bottom: 30px;">
+                                <h4 class="category-title" style="color: var(--primary-dark); border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 15px; text-transform: capitalize;">
+                                    ${typeLabels[type] || type}
+                                </h4>
+                                <div class="category-rooms">
+                                    ${grouped[type].map(room => `
+                                        <div class="room-card" onclick="selectRoom('${room._id}')">
+                                            <input type="radio" name="room" value="${room._id}" id="room-${room._id}">
+                                            <div class="room-info">
+                                                <h4>${room.name}</h4>
+                                                <div class="price">Rs. ${room.pricePerNight.toLocaleString()}/night</div>
+                                                <div class="details">
+                                                    👥 Capacity: ${room.capacity} guests
+                                                    ${room.amenities && room.amenities.length ? `<br><small>✨ ${room.amenities.slice(0, 3).join(', ')}</small>` : ''}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        `;
+                    }
+                });
+
+                container.innerHTML = html;
+
+            } catch (error) {
+                console.error('Error loading rooms:', error);
+                container.innerHTML = '<div class="alert alert-error">Failed to load rooms. Please try again.</div>';
+            }
+        }
+
+        // Select room
+        function selectRoom(roomId) {
+            document.getElementById(`room-${roomId}`).checked = true;
+            document.querySelectorAll('.room-card').forEach(card => card.classList.remove('selected'));
+            event.currentTarget.classList.add('selected');
+            
+            selectedRoom = allRooms.find(r => r._id === roomId);
+            updateSummary();
+        }
+
+        // Add customer
+        document.getElementById('addCustomerBtn').addEventListener('click', () => {
+            customerCount++;
+            const container = document.getElementById('customersContainer');
+            const customerDiv = document.createElement('div');
+            customerDiv.className = 'customer-item';
+            customerDiv.id = `customer-${customerCount}`;
+            customerDiv.innerHTML = `
+                <button type="button" class="remove-customer" onclick="removeCustomer(${customerCount})">✕</button>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Guest Name</label>
+                        <input type="text" name="customerName[]" placeholder="Full name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Age</label>
+                        <input type="number" name="customerAge[]" min="1" max="120" placeholder="Age" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Relation</label>
+                    <input type="text" name="customerRelation[]" placeholder="e.g., Spouse, Child, Friend" required>
+                </div>
+            `;
+            container.appendChild(customerDiv);
+        });
+
+        // Remove customer
+        function removeCustomer(id) {
+            document.getElementById(`customer-${id}`).remove();
+        }
+
+        // File upload
+        const fileInput = document.getElementById('fileInput');
+        const fileUploadArea = document.getElementById('fileUploadArea');
+        const fileList = document.getElementById('fileList');
+
+        fileUploadArea.addEventListener('click', () => fileInput.click());
+
+        fileInput.addEventListener('change', (e) => {
+            const files = Array.from(e.target.files);
+            files.forEach(file => {
+                if (file.size > 5 * 1024 * 1024) {
+                    showMessage('File size should not exceed 5MB', 'error');
+                    return;
+                }
+                uploadedFiles.push(file);
+                displayFiles();
+            });
+        });
+
+        function displayFiles() {
+            fileList.innerHTML = uploadedFiles.map((file, index) => `
+                <div class="file-item">
+                    <span>📄 ${file.name} (${(file.size / 1024).toFixed(2)} KB)</span>
+                    <button type="button" class="btn btn-secondary" style="padding: 5px 10px;" onclick="removeFile(${index})">✕</button>
+                </div>
+            `).join('');
+        }
+
+        function removeFile(index) {
+            uploadedFiles.splice(index, 1);
+            displayFiles();
+        }
+
+        // Update summary
+        function updateSummary() {
+            const checkIn = document.getElementById('checkIn').value;
+            const checkOut = document.getElementById('checkOut').value;
+            const guests = document.getElementById('guests').value;
+
+            document.getElementById('summaryGuests').textContent = guests;
+            document.getElementById('summaryCheckIn').textContent = checkIn || '-';
+            document.getElementById('summaryCheckOut').textContent = checkOut || '-';
+
+            if (selectedRoom) {
+                document.getElementById('summaryRoom').textContent = selectedRoom.name;
+                document.getElementById('summaryPricePerNight').textContent = `Rs. ${selectedRoom.pricePerNight.toLocaleString()}`;
+            }
+
+            if (checkIn && checkOut) {
+                const nights = Math.ceil((new Date(checkOut) - new Date(checkIn)) / (1000 * 60 * 60 * 24));
+                document.getElementById('summaryNights').textContent = nights;
+                
+                if (selectedRoom && nights > 0) {
+                    const total = selectedRoom.pricePerNight * nights;
+                    currentTotalAmount = total; // Update global total
+                    document.getElementById('summaryTotal').textContent = `Rs. ${total.toLocaleString()}`;
+                }
+            }
+        }
+
+        // Event listeners for summary updates
+        ['checkIn', 'checkOut', 'guests'].forEach(id => {
+            document.getElementById(id).addEventListener('change', updateSummary);
+        });
+
+        // Set minimum date to today
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('checkIn').min = today;
+        document.getElementById('checkOut').min = today;
+
+        // Pre-fill user data
+        if (currentUser) {
+            document.getElementById('fullName').value = currentUser.name || '';
+            document.getElementById('email').value = currentUser.email || '';
+        }
+
+        // Show message
+        function showMessage(message, type = 'success') {
+            const container = document.getElementById('messageContainer');
+            container.innerHTML = `<div class="alert alert-${type}">${message}</div>`;
+            setTimeout(() => container.innerHTML = '', 5000);
+        }
+
+        // Form submission
+        document.getElementById('bookingForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            if (!selectedRoom || !selectedRoom._id) {
+                showMessage('Please select a valid room', 'error');
+                return;
+            }
+
+            const checkIn = document.getElementById('checkIn').value;
+            const checkOut = document.getElementById('checkOut').value;
+
+            if (new Date(checkOut) <= new Date(checkIn)) {
+                showMessage('Check-out date must be after check-in date', 'error');
+                return;
+            }
+
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Processing...';
+
+            const formData = new FormData();
+            formData.append('roomId', selectedRoom._id);
+            formData.append('checkIn', checkIn);
+            formData.append('checkOut', checkOut);
+            formData.append('guests', document.getElementById('guests').value);
+
+            const contact = {
+                fullName: document.getElementById('fullName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value
+            };
+            formData.append('contact', JSON.stringify(contact));
+
+            const customers = [];
+            const customerNames = document.getElementsByName('customerName[]');
+            const customerAges = document.getElementsByName('customerAge[]');
+            const customerRelations = document.getElementsByName('customerRelation[]');
+
+            for (let i = 0; i < customerNames.length; i++) {
+                customers.push({
+                    name: customerNames[i].value,
+                    age: customerAges[i].value,
+                    relation: customerRelations[i].value
+                });
+            }
+            formData.append('customers', JSON.stringify(customers));
+
+            uploadedFiles.forEach(file => {
+                formData.append('idProofs', file);
+            });
+
+            const specialRequests = document.getElementById('specialRequests').value;
+            if (specialRequests) {
+                formData.append('specialRequests', specialRequests);
+            }
+
+            // Add payment method
+            const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked')?.value || 'card';
+            formData.append('paymentMethod', paymentMethod);
+
+            // Handle Payment Flow
+            if (['card', 'upi', 'netbanking'].includes(paymentMethod)) {
+                if (currentTotalAmount <= 0) {
+                    showMessage('Invalid amount to pay.', 'error');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Pay & Complete Booking 🔒';
+                    return;
+                }
+
+                try {
+                    // 1. Create Order
+                    const orderRes = await fetch(`${API_BASE}/api/payment/create-order`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${currentUser.token}`
+                        },
+                        body: JSON.stringify({ amount: currentTotalAmount })
+                    });
+                    
+                    if (!orderRes.ok) throw new Error('Failed to create payment order');
+                    const order = await orderRes.json();
+
+                    // 2. Initialize Razorpay
+                    const options = {
+                        key: order.key_id || "rzp_test_YOUR_KEY_HERE", // Ideally should come from backend, but using env var via order response is safer if backend sends it. 
+                        // Actually, backend creates order, but frontend needs Key ID. 
+                        // Let's assume user replaces "rzp_test_YOUR_KEY_HERE" or we fetch it.
+                        // For now, I'll trust the user to put the key in the code or I can fetch it from an endpoint. 
+                        // But wait, standard is key_id is public. I'll put a placeholder in code too if order doesn't return it.
+                        // NOTE: Backend didn't return key_id in my implementation. I should update backend to return it or just use env in backend.
+                        // I will update backend payment.js to return key_id.
+                        amount: order.amount,
+                        currency: order.currency,
+                        name: "InnoStay Hotel",
+                        description: `Booking for ${selectedRoom.name}`,
+                        image: "https://cdn-icons-png.flaticon.com/512/5987/5987424.png", // Logo
+                        order_id: order.id, 
+                        handler: async function (response) {
+                            // 3. Payment Success - Verify & Book
+                            formData.append('razorpay_payment_id', response.razorpay_payment_id);
+                            formData.append('razorpay_order_id', response.razorpay_order_id);
+                            formData.append('razorpay_signature', response.razorpay_signature);
+                            
+                            await submitBooking(formData, submitBtn);
+                        },
+                        prefill: {
+                            name: contact.fullName,
+                            email: contact.email,
+                            contact: contact.phone
+                        },
+                        theme: {
+                            color: "#2563eb"
+                        },
+                        modal: {
+                            ondismiss: function() {
+                                showMessage('Payment cancelled', 'error');
+                                submitBtn.disabled = false;
+                                submitBtn.textContent = 'Pay & Complete Booking 🔒';
+                            }
+                        }
+                    };
+
+                    const rzp1 = new Razorpay(options);
+                    rzp1.on('payment.failed', function (response){
+                        showMessage(`Payment Failed: ${response.error.description}`, 'error');
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = 'Pay & Complete Booking 🔒';
+                    });
+                    rzp1.open();
+
+                } catch (error) {
+                    console.error('Payment Init Error:', error);
+                    showMessage('Failed to initialize payment. Please try again.', 'error');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Pay & Complete Booking 🔒';
+                }
+                return; // Stop here, wait for Razorpay handler
+            }
+
+            // Normal booking (if other methods exist)
+            await submitBooking(formData, submitBtn);
+        });
+
+        async function submitBooking(formData, submitBtn) {
+            try {
+                const response = await fetch(`${API_BASE}/api/bookings`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${currentUser.token}`
+                    },
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showMessage('Booking successful! Redirecting to confirmation...', 'success');
+                    setTimeout(() => {
+                        const bookingId = data.booking ? data.booking._id : (data._id || '');
+                        window.location.href = `receipt.html?id=${bookingId}`;
+                    }, 2000);
+                } else {
+                    showMessage(data.message || 'Booking failed. Please try again.', 'error');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Pay & Complete Booking 🔒';
+                }
+            } catch (error) {
+                console.error('Booking error:', error);
+                showMessage('An error occurred. Please try again.', 'error');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Pay & Complete Booking 🔒';
+            }
+        }
+
+        // Payment method selection styling
+        document.querySelectorAll('input[name="paymentMethod"]').forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                // Reset all
+                document.querySelectorAll('.payment-option').forEach(opt => {
+                    opt.style.border = '1px solid #cbd5e1';
+                    opt.style.background = 'transparent';
+                    opt.classList.remove('selected');
+                });
+                
+                // Highlight selected
+                if (e.target.checked) {
+                    const label = e.target.closest('.payment-option');
+                    label.style.border = '2px solid var(--primary-color)';
+                    label.style.background = 'rgba(37, 99, 235, 0.05)';
+                    label.classList.add('selected');
+                }
+            });
+        });
+
+        // Load rooms on page load
+        loadRooms();
+    </script>
+</body>
+</html>

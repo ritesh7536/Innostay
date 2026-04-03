@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Your Stay - InnoStay</title>
+    <link rel="icon" type="image/x-icon" href="./favicon.ico">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #007bff;
+            --primary-dark: #0056b3;
+            --success-color: #28a745;
+            --danger-color: #dc3545;
+            --warning-color: #ffc107;
+            --text-dark: #2c3e50;
+            --text-light: #6c757d;
+            --border-color: #dee2e6;
+            --bg-light: #f8f9fa;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: var(--text-dark);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .booking-content {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 0;
+        }
+
+        .booking-form-section {
+            padding: 40px;
+        }
+
+        .booking-summary {
+            background: var(--bg-light);
+            padding: 40px;
+            border-left: 1px solid var(--border-color);
+        }
+
+        .section-title {
+            font-size: 1.5em;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+        }
+
+        .form-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .room-card {
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .room-card:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .room-card.selected {
+            border-color: var(--primary-color);
+            background: rgba(0,123,255,0.05);
+        }
+
+        .room-card input[type="radio"] {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .room-info h4 {
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        .room-info .price {
+            font-size: 1.5em;
+            color: var(--primary-color);
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .room-info .details {
+            color: var(--text-light);
+            font-size: 0.9em;
+        }
+
+        .customer-item {
+            background: var(--bg-light);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .remove-customer {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--danger-color);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,123,255,0.3);
+        }
+
+        .btn-secondary {
+            background: var(--text-light);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-block {
+            width: 100%;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+
+        .summary-item.total {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: var(--primary-color);
+            padding-top: 20px;
+            margin-top: 10px;
+            border-top: 2px solid var(--primary-color);
+        }
+
+        .file-upload {
+            border: 2px dashed var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .file-upload:hover {
+            border-color: var(--primary-color);
+            background: rgba(0,123,255,0.05);
+        }
+
+        .file-upload input {
+            display: none;
+        }
+
+        .file-list {
+            margin-top: 10px;
+        }
+
+        .file-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            background: var(--bg-light);
+            border-radius: 5px;
+            margin-top: 5px;
+        }
+
+        .alert {
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .spinner {
+            border: 4px solid var(--border-color);
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 968px) {
+            .booking-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .booking-summary {
+                border-left: none;
+                border-top: 1px solid var(--border-color);
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏨 Complete Your Booking</h1>
+            <p>Fill in your details to reserve your perfect stay at InnoStay</p>
+        </div>
+
+        <div class="booking-content">
+            <div class="booking-form-section">
+                <form id="bookingForm">
+                    <!-- Room Selection -->
+                    <div class="form-section">
+                        <h3>1. Select Your Room</h3>
+                        <div id="roomsContainer">
+                            <div class="loading">
+                                <div class="spinner"></div>
+                                <p>Loading rooms...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Booking Details -->
+                    <div class="form-section">
+                        <h3>2. Booking Details</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="checkIn">Check-in Date *</label>
+                                <input type="date" id="checkIn" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="checkOut">Check-out Date *</label>
+                                <input type="date" id="checkOut" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="guests">Number of Guests *</label>
+                            <input type="number" id="guests" min="1" max="10" value="2" required>
+                        </div>
+                    </div>
+
+                    <!-- Contact Information -->
+                    <div class="form-section">
+                        <h3>3. Contact Information</h3>
+                        <div class="form-group">
+                            <label for="fullName">Full Name *</label>
+                            <input type="text" id="fullName" placeholder="Enter your full name" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="email">Email Address *</label>
+                                <input type="email" id="email" placeholder="your@email.com" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone Number *</label>
+                                <input type="tel" id="phone" placeholder="+1234567890" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Guest Details -->
+                    <div class="form-section">
+                        <h3>4. Guest Details</h3>
+                        <div id="customersContainer"></div>
+                        <button type="button" class="btn btn-secondary" id="addCustomerBtn">+ Add Guest</button>
+                    </div>
+
+                    <!-- ID Proof Upload -->
+                    <div class="form-section">
+                        <h3>5. Upload ID Proofs</h3>
+                        <div class="file-upload" id="fileUploadArea">
+                            <input type="file" id="fileInput" multiple accept="image/*,.pdf">
+                            <p>📎 Click to upload or drag & drop ID proofs</p>
+                            <small>Upload clear photos of IDs for all guests (Max 5MB each)</small>
+                        </div>
+                        <div class="file-list" id="fileList"></div>
+                    </div>
+
+                    <!-- Special Requests -->
+                    <div class="form-section">
+                        <h3>6. Special Requests (Optional)</h3>
+                        <div class="form-group">
+                            <textarea id="specialRequests" rows="4" placeholder="Any special requests or requirements..."></textarea>
+                        </div>
+                    </div>
+
+                    <div id="messageContainer"></div>
+
+                    <button type="submit" class="btn btn-primary btn-block" id="submitBtn">
+                        Complete Booking 🎉
+                    </button>
+                </form>
+            </div>
+
+            <div class="booking-summary">
+                <h2 class="section-title">Booking Summary</h2>
+                <div id="summaryContent">
+                    <div class="summary-item">
+                        <span>Room:</span>
+                        <strong id="summaryRoom">Not selected</strong>
+                    </div>
+                    <div class="summary-item">
+                        <span>Check-in:</span>
+                        <strong id="summaryCheckIn">-</strong>
+                    </div>
+                    <div class="summary-item">
+                        <span>Check-out:</span>
+                        <strong id="summaryCheckOut">-</strong>
+                    </div>
+                    <div class="summary-item">
+                        <span>Nights:</span>
+                        <strong id="summaryNights">0</strong>
+                    </div>
+                    <div class="summary-item">
+                        <span>Guests:</span>
+                        <strong id="summaryGuests">2</strong>
+                    </div>
+                    <div class="summary-item">
+                        <span>Price per night:</span>
+                        <strong id="summaryPricePerNight">Rs. 0</strong>
+                    </div>
+                    <div class="summary-item total">
+                        <span>Total Amount:</span>
+                        <strong id="summaryTotal">Rs. 0</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = ['localhost', '127.0.0.1'].includes(window.location.hostname) && window.location.port === '5500' ? 'http://localhost:4001' : window.location.origin;
+        let selectedRoom = null;
+        let uploadedFiles = [];
+        let customerCount = 0;
+
+        // Get current user from localStorage
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        if (!currentUser || !currentUser.token) {
+            alert('Please login to make a booking');
+            window.close();
+        }
+
+        // Load rooms from API
+        async function loadRooms() {
+            const container = document.getElementById('roomsContainer');
+            container.innerHTML = '<div class="loading"><div class="spinner"></div><p>Loading rooms...</p></div>';
+
+            try {
+                const response = await fetch(`${API_BASE}/api/rooms`);
+                const data = await response.json();
+                const rooms = data.rooms || data;
+
+                if (rooms.length === 0) {
+                    container.innerHTML = '<p>No rooms available</p>';
+                    return;
+                }
+
+                container.innerHTML = rooms.map(room => `
+                    <div class="room-card" onclick="selectRoom('${room._id}')">
+                        <input type="radio" name="room" value="${room._id}" id="room-${room._id}">
+                        <div class="room-info">
+                            <h4>${room.name}</h4>
+                            <div class="price">Rs. ${room.pricePerNight.toLocaleString()}/night</div>
+                            <div class="details">
+                                👥 Capacity: ${room.capacity} guests | 🛏️ ${room.type}
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+
+            } catch (error) {
+                console.error('Error loading rooms:', error);
+                container.innerHTML = '<div class="alert alert-error">Failed to load rooms. Please try again.</div>';
+            }
+        }
+
+        // Select room
+        function selectRoom(roomId) {
+            document.getElementById(`room-${roomId}`).checked = true;
+            document.querySelectorAll('.room-card').forEach(card => card.classList.remove('selected'));
+            event.currentTarget.classList.add('selected');
+            
+            fetch(`${API_BASE}/api/rooms`)
+                .then(res => res.json())
+                .then(data => {
+                    const rooms = data.rooms || data;
+                    selectedRoom = rooms.find(r => r._id === roomId);
+                    updateSummary();
+                });
+        }
+
+        // Add customer
+        document.getElementById('addCustomerBtn').addEventListener('click', () => {
+            customerCount++;
+            const container = document.getElementById('customersContainer');
+            const customerDiv = document.createElement('div');
+            customerDiv.className = 'customer-item';
+            customerDiv.id = `customer-${customerCount}`;
+            customerDiv.innerHTML = `
+                <button type="button" class="remove-customer" onclick="removeCustomer(${customerCount})">✕</button>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Guest Name</label>
+                        <input type="text" name="customerName[]" placeholder="Full name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Age</label>
+                        <input type="number" name="customerAge[]" min="1" max="120" placeholder="Age" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Relation</label>
+                    <input type="text" name="customerRelation[]" placeholder="e.g., Spouse, Child, Friend" required>
+                </div>
+            `;
+            container.appendChild(customerDiv);
+        });
+
+        // Remove customer
+        function removeCustomer(id) {
+            document.getElementById(`customer-${id}`).remove();
+        }
+
+        // File upload
+        const fileInput = document.getElementById('fileInput');
+        const fileUploadArea = document.getElementById('fileUploadArea');
+        const fileList = document.getElementById('fileList');
+
+        fileUploadArea.addEventListener('click', () => fileInput.click());
+
+        fileInput.addEventListener('change', (e) => {
+            const files = Array.from(e.target.files);
+            files.forEach(file => {
+                if (file.size > 5 * 1024 * 1024) {
+                    showMessage('File size should not exceed 5MB', 'error');
+                    return;
+                }
+                uploadedFiles.push(file);
+                displayFiles();
+            });
+        });
+
+        function displayFiles() {
+            fileList.innerHTML = uploadedFiles.map((file, index) => `
+                <div class="file-item">
+                    <span>📄 ${file.name} (${(file.size / 1024).toFixed(2)} KB)</span>
+                    <button type="button" class="btn btn-secondary" style="padding: 5px 10px;" onclick="removeFile(${index})">✕</button>
+                </div>
+            `).join('');
+        }
+
+        function removeFile(index) {
+            uploadedFiles.splice(index, 1);
+            displayFiles();
+        }
+
+        // Update summary
+        function updateSummary() {
+            const checkIn = document.getElementById('checkIn').value;
+            const checkOut = document.getElementById('checkOut').value;
+            const guests = document.getElementById('guests').value;
+
+            document.getElementById('summaryGuests').textContent = guests;
+            document.getElementById('summaryCheckIn').textContent = checkIn || '-';
+            document.getElementById('summaryCheckOut').textContent = checkOut || '-';
+
+            if (selectedRoom) {
+                document.getElementById('summaryRoom').textContent = selectedRoom.name;
+                document.getElementById('summaryPricePerNight').textContent = `Rs. ${selectedRoom.pricePerNight.toLocaleString()}`;
+            }
+
+            if (checkIn && checkOut) {
+                const nights = Math.ceil((new Date(checkOut) - new Date(checkIn)) / (1000 * 60 * 60 * 24));
+                document.getElementById('summaryNights').textContent = nights;
+                
+                if (selectedRoom && nights > 0) {
+                    const total = selectedRoom.pricePerNight * nights;
+                    document.getElementById('summaryTotal').textContent = `Rs. ${total.toLocaleString()}`;
+                }
+            }
+        }
+
+        // Event listeners for summary updates
+        ['checkIn', 'checkOut', 'guests'].forEach(id => {
+            document.getElementById(id).addEventListener('change', updateSummary);
+        });
+
+        // Set minimum date to today
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('checkIn').min = today;
+        document.getElementById('checkOut').min = today;
+
+        // Pre-fill user data
+        if (currentUser) {
+            document.getElementById('fullName').value = currentUser.name || '';
+            document.getElementById('email').value = currentUser.email || '';
+        }
+
+        // Show message
+        function showMessage(message, type = 'success') {
+            const container = document.getElementById('messageContainer');
+            container.innerHTML = `<div class="alert alert-${type}">${message}</div>`;
+            setTimeout(() => container.innerHTML = '', 5000);
+        }
+
+        // Form submission
+        document.getElementById('bookingForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            if (!selectedRoom) {
+                showMessage('Please select a room', 'error');
+                return;
+            }
+
+            const checkIn = document.getElementById('checkIn').value;
+            const checkOut = document.getElementById('checkOut').value;
+
+            if (new Date(checkOut) <= new Date(checkIn)) {
+                showMessage('Check-out date must be after check-in date', 'error');
+                return;
+            }
+
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Processing...';
+
+            const formData = new FormData();
+            formData.append('roomId', selectedRoom._id);
+            formData.append('checkIn', checkIn);
+            formData.append('checkOut', checkOut);
+            formData.append('guests', document.getElementById('guests').value);
+
+            const contact = {
+                fullName: document.getElementById('fullName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value
+            };
+            formData.append('contact', JSON.stringify(contact));
+
+            const customers = [];
+            const customerNames = document.getElementsByName('customerName[]');
+            const customerAges = document.getElementsByName('customerAge[]');
+            const customerRelations = document.getElementsByName('customerRelation[]');
+
+            for (let i = 0; i < customerNames.length; i++) {
+                customers.push({
+                    name: customerNames[i].value,
+                    age: customerAges[i].value,
+                    relation: customerRelations[i].value
+                });
+            }
+            formData.append('customers', JSON.stringify(customers));
+
+            uploadedFiles.forEach(file => {
+                formData.append('idProofs', file);
+            });
+
+            const specialRequests = document.getElementById('specialRequests').value;
+            if (specialRequests) {
+                formData.append('specialRequests', specialRequests);
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/api/bookings`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${currentUser.token}`
+                    },
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showMessage('Booking successful! Redirecting...', 'success');
+                    const booking = data.booking || data;
+                    setTimeout(() => {
+                        // Get the number of nights for calculation
+                        const checkIn = new Date(document.getElementById('checkIn').value);
+                        const checkOut = new Date(document.getElementById('checkOut').value);
+                        const nights = Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24));
+                        
+                        // Calculate total amount based on room rate and nights
+                        const roomRate = selectedRoom ? selectedRoom.pricePerNight : 0;
+                        const totalAmount = roomRate * nights;
+                        
+                        // Include all necessary parameters in the URL
+                        const params = new URLSearchParams({
+                            id: booking._id || 'N/A',
+                            room: selectedRoom ? selectedRoom.name : 'Deluxe Room',
+                            checkIn: document.getElementById('checkIn').value,
+                            checkOut: document.getElementById('checkOut').value,
+                            guests: document.getElementById('guests').value,
+                            name: document.getElementById('fullName').value,
+                            email: document.getElementById('email').value,
+                            phone: document.getElementById('phone').value,
+                            rate: roomRate.toString(),
+                            total: totalAmount.toString(),
+                            status: 'confirmed',
+                            nights: nights.toString()
+                        });
+                        window.location.href = `receipt.html?${params.toString()}`;
+                    }, 2000);
+                } else {
+                    showMessage(data.message || 'Booking failed. Please try again.', 'error');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Complete Booking 🎉';
+                }
+            } catch (error) {
+                console.error('Booking error:', error);
+                showMessage('An error occurred. Please try again.', 'error');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Complete Booking 🎉';
+            }
+        });
+
+        // Load rooms on page load
+        loadRooms();
+    </script>
+</body>
+</html>

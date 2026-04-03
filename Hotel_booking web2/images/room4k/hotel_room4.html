@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+            font-family: Arial, sans-serif;
+        }
+        .hotel-room {
+            width: 1200px;
+            height: 800px;
+            background: linear-gradient(180deg, #FFEBEE 0%, #FFCDD2 100%);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin: 0 auto;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        /* Floor */
+        .floor {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 120px;
+            background: linear-gradient(90deg, #B71C1C 0%, #F44336 50%, #B71C1C 100%);
+            box-shadow: inset 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        /* Wall */
+        .wall {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 680px;
+            background: linear-gradient(180deg, #FFFFFF 0%, #FFEBEE 100%);
+            box-shadow: inset 0 0 30px rgba(0,0,0,0.1);
+        }
+        
+        /* Double Beds */
+        .double-bed-1 {
+            position: absolute;
+            bottom: 120px;
+            right: 150px;
+            width: 380px;
+            height: 280px;
+            background: linear-gradient(180deg, #FFFFFF 0%, #F0F0F0 100%);
+            border-radius: 12px;
+            box-shadow: 0 12px 35px rgba(0,0,0,0.3);
+        }
+        
+        .double-bed-2 {
+            position: absolute;
+            bottom: 120px;
+            right: 550px;
+            width: 380px;
+            height: 280px;
+            background: linear-gradient(180deg, #FFFFFF 0%, #F0F0F0 100%);
+            border-radius: 12px;
+            box-shadow: 0 12px 35px rgba(0,0,0,0.3);
+        }
+        
+        .bed-headboard {
+            position: absolute;
+            top: -60px;
+            left: 0;
+            right: 0;
+            height: 80px;
+            background: linear-gradient(180deg, #D32F2F 0%, #B71C1C 100%);
+            border-radius: 12px 12px 0 0;
+            box-shadow: 0 -6px 20px rgba(0,0,0,0.3);
+        }
+        
+        .mattress {
+            position: absolute;
+            top: 25px;
+            left: 25px;
+            right: 25px;
+            bottom: 25px;
+            background: linear-gradient(180deg, #FFFFFF 0%, #E8E8E8 100%);
+            border-radius: 8px;
+            box-shadow: inset 0 3px 12px rgba(0,0,0,0.1);
+        }
+        
+        .pillow {
+            position: absolute;
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 320px;
+            height: 60px;
+            background: linear-gradient(180deg, #FFFFFF 0%, #F5F5F5 100%);
+            border-radius: 30px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        }
+        
+        .blanket {
+            position: absolute;
+            top: 85px;
+            left: 25px;
+            right: 25px;
+            bottom: 25px;
+            background: linear-gradient(180deg, #F44336 0%, #D32F2F 100%);
+            border-radius: 8px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        }
+        
+        /* Nightstands */
+        .nightstand-1 {
+            position: absolute;
+            bottom: 120px;
+            right: 540px;
+            width: 100px;
+            height: 170px;
+            background: linear-gradient(180deg, #8B4513 0%, #654321 100%);
+            border-radius: 6px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        
+        .nightstand-2 {
+            position: absolute;
+            bottom: 120px;
+            right: 140px;
+            width: 100px;
+            height: 170px;
+            background: linear-gradient(180deg, #8B4513 0%, #654321 100%);
+            border-radius: 6px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        
+        .nightstand-top {
+            position: absolute;
+            top: -8px;
+            left: -4px;
+            right: -4px;
+            height: 16px;
+            background: linear-gradient(180deg, #D4A574 0%, #8B4513 100%);
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        
+        /* Lamps */
+        .lamp {
+            position: absolute;
+            top: -90px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70px;
+            height: 70px;
+        }
+        
+        .lamp-base {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 20px;
+            background: linear-gradient(180deg, #FFD700 0%, #FFA500 100%);
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        
+        .lamp-pole {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 8px;
+            height: 60px;
+            background: linear-gradient(180deg, #FFD700 0%, #FFA500 100%);
+            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+        }
+        
+        .lamp-shade {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70px;
+            height: 40px;
+            background: linear-gradient(180deg, #FFF8DC 0%, #F0E68C 100%);
+            border-radius: 35px 35px 0 0;
+            box-shadow: 0 6px 20px rgba(255,215,0,0.3);
+        }
+        
+        /* Sitting Area */
+        .sitting-area {
+            position: absolute;
+            bottom: 120px;
+            left: 100px;
+            width: 400px;
+            height: 200px;
+            background: linear-gradient(180deg, #D32F2F 0%, #F44336 100%);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .sitting-cushion {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            height: 80px;
+            background: linear-gradient(180deg, #F44336 0%, #D32F2F 100%);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .sitting-back {
+            position: absolute;
+            top: -50px;
+            left: 0;
+            right: 0;
+            height: 70px;
+            background: linear-gradient(180deg, #F44336 0%, #D32F2F 100%);
+            border-radius: 12px 12px 0 0;
+            box-shadow: 0 -6px 20px rgba(0,0,0,0.2);
+        }
+        
+        /* Coffee Table */
+        .coffee-table {
+            position: absolute;
+            bottom: 120px;
+            left: 520px;
+            width: 180px;
+            height: 120px;
+            background: linear-gradient(180deg, #8B4513 0%, #654321 100%);
+            border-radius: 8px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+        
+        .table-top {
+            position: absolute;
+            top: -8px;
+            left: -4px;
+            right: -4px;
+            height: 16px;
+            background: linear-gradient(180deg, #D4A574 0%, #8B4513 100%);
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        /* Large Window */
+        .window {
+            position: absolute;
+            top: 80px;
+            left: 80px;
+            width: 380px;
+            height: 420px;
+            background: linear-gradient(135deg, #87CEEB 0%, #6BB6FF 50%, #87CEEB 100%);
+            border: 14px solid #654321;
+            border-radius: 12px;
+            box-shadow: inset 0 0 35px rgba(255,255,255,0.6), 0 12px 35px rgba(0,0,0,0.4);
+        }
+        
+        .window-frame {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 82%;
+            height: 82%;
+            border: 10px solid #654321;
+            border-radius: 10px;
+        }
+        
+        /* Family Artwork */
+        .family-artwork {
+            position: absolute;
+            top: 120px;
+            right: 100px;
+            width: 220px;
+            height: 320px;
+            background: linear-gradient(135deg, #FF9800 0%, #F57C00 50%, #FF9800 100%);
+            border: 18px solid #8B4513;
+            border-radius: 12px;
+            box-shadow: 0 12px 35px rgba(0,0,0,0.4);
+        }
+        
+        .artwork-frame {
+            position: absolute;
+            top: 18px;
+            left: 18px;
+            right: 18px;
+            bottom: 18px;
+            background: linear-gradient(135deg, #FFEB3B 0%, #FFC107 50%, #FFEB3B 100%);
+            border-radius: 10px;
+        }
+        
+        /* Wardrobe */
+        .wardrobe {
+            position: absolute;
+            bottom: 120px;
+            left: 720px;
+            width: 200px;
+            height: 300px;
+            background: linear-gradient(180deg, #8B4513 0%, #654321 100%);
+            border-radius: 10px;
+            box-shadow: 0 12px 35px rgba(0,0,0,0.4);
+        }
+        
+        .wardrobe-doors {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            bottom: 20px;
+            background: linear-gradient(180deg, #654321 0%, #4A3020 100%);
+            border-radius: 8px;
+            box-shadow: inset 0 3px 12px rgba(0,0,0,0.3);
+        }
+        
+        .wardrobe-handle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 10px;
+            background: #FFD700;
+            border-radius: 5px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+        }
+        
+        /* Quality Badge */
+        .quality-label {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #4CAF50 0%, #45A049 100%);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 18px;
+            box-shadow: 0 5px 20px rgba(76,175,80,0.4);
+            z-index: 10;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+    </style>
+</head>
+<body>
+    <div class="hotel-room">
+        <div class="quality-label">4K Family Room</div>
+        <div class="wall"></div>
+        <div class="floor"></div>
+        <div class="window">
+            <div class="window-frame"></div>
+        </div>
+        <div class="family-artwork">
+            <div class="artwork-frame"></div>
+        </div>
+        <div class="double-bed-1">
+            <div class="bed-headboard"></div>
+            <div class="mattress">
+                <div class="pillow"></div>
+                <div class="blanket"></div>
+            </div>
+        </div>
+        <div class="double-bed-2">
+            <div class="bed-headboard"></div>
+            <div class="mattress">
+                <div class="pillow"></div>
+                <div class="blanket"></div>
+            </div>
+        </div>
+        <div class="nightstand-1">
+            <div class="nightstand-top"></div>
+            <div class="lamp">
+                <div class="lamp-shade"></div>
+                <div class="lamp-pole"></div>
+                <div class="lamp-base"></div>
+            </div>
+        </div>
+        <div class="nightstand-2">
+            <div class="nightstand-top"></div>
+            <div class="lamp">
+                <div class="lamp-shade"></div>
+                <div class="lamp-pole"></div>
+                <div class="lamp-base"></div>
+            </div>
+        </div>
+        <div class="sitting-area">
+            <div class="sitting-back"></div>
+            <div class="sitting-cushion"></div>
+        </div>
+        <div class="coffee-table">
+            <div class="table-top"></div>
+        </div>
+        <div class="wardrobe">
+            <div class="wardrobe-doors">
+                <div class="wardrobe-handle"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

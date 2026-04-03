@@ -1,0 +1,194 @@
+<!-- Main Content: Rooms Listing -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Rooms & Suites - InnoStay</title>
+    
+    <!-- This is the line you add -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <img src="./images/Innostay_logo-removebg-preview.png" alt="InnoStay Logo">
+                <span>InnoStay</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="index.html#amenities">Amenities</a>
+            </div>
+        </div>
+    </nav>
+<main class="container page-content">
+
+    <!-- Section 2: Deluxe Rooms -->
+    <section class="room-category" id="deluxe-rooms">
+        <div class="section-header">
+            <h2>Deluxe Rooms</h2>
+            <p>Spacious and luxurious, offering superior comfort and stunning views.</p>
+        </div>
+        <div class="detailed-room-grid">
+            <!-- Deluxe Room 1 -->
+            <div class="detailed-room-card">
+                <img src="./images/deluxe_room1.jpg" alt="Deluxe Room 1">
+                <div class="detailed-room-content">
+                    <h3>Deluxe King with Balcony</h3>
+                    <div class="room-meta">
+                        <span><strong>Price:</strong> Rs.22,000 / night</span>
+                        <span><strong>Beds:</strong> 1 King Bed</span>
+                    </div>
+                    <div class="room-actions">
+                        <a href="room_details_new.html?room=deluxe-king-balcony" class="btn btn-secondary">View Details</a>
+                        <a href="#" class="btn btn-primary">Book Now</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Deluxe Room 2 -->
+            <div class="detailed-room-card">
+                <img src="./images/deluxe_room2.jpg" alt="Deluxe Room 2">
+                <div class="detailed-room-content">
+                    <h3>Ocean View Deluxe</h3>
+                    <div class="room-meta">
+                        <span><strong>Price:</strong> Rs.24,200 / night</span>
+                        <span><strong>Beds:</strong> 1 King Bed</span>
+                    </div>
+                    <div class="room-actions">
+                        <a href="room_details_new.html?room=ocean-view-deluxe" class="btn btn-secondary">View Details</a>
+                        <a href="#" class="btn btn-primary">Book Now</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Deluxe Room 3 -->
+            <div class="detailed-room-card">
+                <img src="./images/deluxe_room3.jpg" alt="Deluxe Room 3">
+                <div class="detailed-room-content">
+                    <h3>Family Deluxe Room</h3>
+                    <div class="room-meta">
+                        <span><strong>Price:</strong> Rs.26,400 / night</span>
+                        <span><strong>Beds:</strong> 2 Queen Beds</span>
+                    </div>
+                    <div class="room-actions">
+                        <a href="room_details_new.html?room=family-deluxe-room" class="btn btn-secondary">View Details</a>
+                        <a href="#" class="btn btn-primary">Book Now</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Deluxe Room 4 -->
+            <div class="detailed-room-card">
+                <img src="./images/deluxe_room4.jpg" alt="Deluxe Room 4">
+                <div class="detailed-room-content">
+                    <h3>Deluxe Twin with View</h3>
+                    <div class="room-meta">
+                        <span><strong>Price:</strong> Rs.22,800 / night</span>
+                        <span><strong>Beds:</strong> 2 Twin Beds</span>
+                    </div>
+                    <div class="room-actions">
+                        <a href="room_details_new.html?room=deluxe-twin-view" class="btn btn-secondary">View Details</a>
+                        <a href="#" class="btn btn-primary">Book Now</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Deluxe Room 5 -->
+            <div class="detailed-room-card">
+                <img src="./images/deluxe_room5.jpg" alt="Deluxe Room 5">
+                <div class="detailed-room-content">
+                    <h3>Corner King Deluxe</h3>
+                    <div class="room-meta">
+                        <span><strong>Price:</strong> Rs.25,080 / night</span>
+                        <span><strong>Beds:</strong> 1 King Bed</span>
+                    </div>
+                    <div class="room-actions">
+                        <a href="room_details_new.html?room=corner-king-deluxe" class="btn btn-secondary">View Details</a>
+                        <a href="#" class="btn btn-primary">Book Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer class="footer"><div class="container"><div class="footer-bottom"><p>&copy; 2025 InnoStay. All Rights Reserved. | <a href="index.html#rooms">Back to Rooms and Suites</a></p></div></div></footer>
+
+</main>
+<script>
+// Inline booking modal for Deluxe
+(function(){
+  const API_BASE = ['localhost', '127.0.0.1'].includes(window.location.hostname) && window.location.port === '5500' ? 'http://localhost:4001' : window.location.origin;
+  const modal = document.createElement('div');
+  modal.className = 'modal-overlay hidden';
+  modal.id = 'dlx-booking-modal';
+  modal.innerHTML = `
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h2>Book Deluxe Room</h2>
+      <form id="dlx-booking-form">
+        <div class="form-group-modal" style="display:none"><label>Room</label><select id="dlx-room"></select></div>
+        <div class="form-group-modal"><label>Selected Sub-room</label><input type="text" id="dlx-subroom" readonly></div>
+        <div class="form-group-modal"><label>Price</label><input type="text" id="dlx-price" readonly></div>
+        <div class="form-group-modal"><label>Check-in</label><input type="date" id="dlx-checkin" required></div>
+        <div class="form-group-modal"><label>Check-out</label><input type="date" id="dlx-checkout" required></div>
+        <div class="form-group-modal"><label>Guests</label><input type="number" id="dlx-guests" min="1" value="2" required></div>
+        <div class="form-group-modal"><label>Full Name</label><input type="text" id="dlx-fullname" required></div>
+        <div class="form-group-modal"><label>Email</label><input type="email" id="dlx-email" required></div>
+        <div class="form-group-modal"><label>Phone</label><input type="tel" id="dlx-phone" required></div>
+        <button type="submit" class="btn btn-primary">Book Now</button>
+      </form>
+    </div>`;
+  document.body.appendChild(modal);
+  const closeBtn = modal.querySelector('.close-modal');
+  const hide = () => modal.classList.add('hidden');
+  const show = () => modal.classList.remove('hidden');
+  if (closeBtn) closeBtn.addEventListener('click', hide);
+
+  async function loadRooms() {
+    const res = await fetch(`${API_BASE}/api/rooms`);
+    const data = await res.json();
+    const rooms = (data.rooms||[]).filter(r => String(r.type).toLowerCase()==='deluxe');
+    const select = document.getElementById('dlx-room');
+    select.innerHTML = '';
+    rooms.forEach(r=>{ const o=document.createElement('option'); o.value=r._id; o.textContent=`${r.name} - ₹${r.pricePerNight}/night`; select.appendChild(o); });
+  }
+
+  document.querySelectorAll('.room-actions .btn.btn-primary').forEach(btn => {
+    btn.addEventListener('click', async function(e){
+      e.preventDefault();
+      if (!localStorage.getItem('token')) { alert('Please login to book.'); return; }
+      await loadRooms();
+      const card = this.closest('.detailed-room-card');
+      const title = card ? (card.querySelector('h3')?.textContent || '') : '';
+      const subInput = document.getElementById('dlx-subroom');
+      if (subInput) subInput.value = title;
+      const metaPrice = card ? (card.querySelector('.room-meta span')?.textContent || '') : '';
+      const priceInput = document.getElementById('dlx-price');
+      if (priceInput) priceInput.value = metaPrice.replace('Price:','').trim();
+      const roomSel = document.getElementById('dlx-room');
+      if (roomSel && roomSel.options.length) roomSel.selectedIndex = 0;
+      show();
+    });
+  });
+
+  const form = document.getElementById('dlx-booking-form');
+  form.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    const token = localStorage.getItem('token');
+    if (!token) { alert('Please login to book.'); return; }
+    const payload = {
+      roomId: document.getElementById('dlx-room').value,
+      checkIn: document.getElementById('dlx-checkin').value,
+      checkOut: document.getElementById('dlx-checkout').value,
+      guests: parseInt(document.getElementById('dlx-guests').value,10),
+      contact: { fullName: document.getElementById('dlx-fullname').value, email: document.getElementById('dlx-email').value, phone: document.getElementById('dlx-phone').value },
+      customers: [],
+      selectedSubroom: document.getElementById('dlx-subroom').value
+    };
+    const res = await fetch(`${API_BASE}/api/bookings`, { method:'POST', headers:{'Content-Type':'application/json', Authorization:`Bearer ${token}`}, body: JSON.stringify(payload)});
+    const data = await res.json().catch(()=>({}));
+    if (res.ok) {
+      hide();
+      const pdfRes = await fetch(`${API_BASE}/api/bookings/${data.booking._id}/receipt`, { headers:{Authorization:`Bearer ${token}`} });
+      if (pdfRes.ok) { const blob = await pdfRes.blob(); const url = URL.createObjectURL(blob); window.open(url,'_blank'); setTimeout(()=>URL.revokeObjectURL(url),60000); }
+      alert('Booking confirmed!');
+    } else {
+      alert(data.message || 'Booking failed');
+    }
+  });
+})();
+</script>
