@@ -969,27 +969,32 @@
 
                 try {
                     // 1. Create Order
+                    const checkInDate = new Date(document.getElementById('checkIn').value);
+                    const checkOutDate = new Date(document.getElementById('checkOut').value);
+                    const nights = Math.max(1, Math.ceil((checkOutDate - checkInDate) / (1000 * 60 * 60 * 24)));
+
                     const orderRes = await fetch(`${API_BASE}/api/payment/create-order`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
                             'Authorization': `Bearer ${currentUser.token}`
                         },
-                        body: JSON.stringify({ amount: currentTotalAmount })
+                        body: JSON.stringify({ 
+                            roomPrice: selectedRoom.pricePerNight,
+                            nights: nights
+                        })
                     });
                     
-                    if (!orderRes.ok) throw new Error('Failed to create payment order');
-                    const order = await orderRes.json();
+                    if (!orderRes.ok) {
+                        const errData = await orderRes.json();
+                        throw new Error(errData.message || 'Failed to create payment order');
+                    }
+                    const orderData = await orderRes.json();
+                    const order = orderData.order;
 
                     // 2. Initialize Razorpay
                     const options = {
-                        key: order.key_id || "rzp_test_YOUR_KEY_HERE", // Ideally should come from backend, but using env var via order response is safer if backend sends it. 
-                        // Actually, backend creates order, but frontend needs Key ID. 
-                        // Let's assume user replaces "rzp_test_YOUR_KEY_HERE" or we fetch it.
-                        // For now, I'll trust the user to put the key in the code or I can fetch it from an endpoint. 
-                        // But wait, standard is key_id is public. I'll put a placeholder in code too if order doesn't return it.
-                        // NOTE: Backend didn't return key_id in my implementation. I should update backend to return it or just use env in backend.
-                        // I will update backend payment.js to return key_id.
+                        key: orderData.key_id, 
                         amount: order.amount,
                         currency: order.currency,
                         name: "InnoStay Hotel",
