@@ -751,11 +751,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             if (userProfile) userProfile.style.display = 'flex';
-            if (navBookNow) navBookNow.style.display = 'inline-block';
             if (myBookingsLink) myBookingsLink.style.display = 'inline-block';
             
             // Mobile shows - let CSS handle responsive visibility
-            if (navBookNowMobile) navBookNowMobile.style.display = 'inline-block';
             if (myBookingsLinkMobile) myBookingsLinkMobile.style.display = 'inline-block';
             if (logoutMobile) logoutMobile.style.display = 'inline-block';
 
@@ -773,11 +771,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             if (userProfile) userProfile.style.display = 'none';
-            if (navBookNow) navBookNow.style.display = 'none';
             if (myBookingsLink) myBookingsLink.style.display = 'none';
 
             // Mobile hides - let CSS handle responsive visibility
-            if (navBookNowMobile) navBookNowMobile.style.display = 'none';
             if (myBookingsLinkMobile) myBookingsLinkMobile.style.display = 'none';
             if (logoutMobile) logoutMobile.style.display = 'none';
         }
@@ -795,6 +791,37 @@ document.addEventListener('DOMContentLoaded', () => {
             updateAuthUI(null);
             showMessage('You have been logged out successfully.', 'success');
         });
+    }
+    
+    // Handle Book Now button clicks
+    const navBookNow = document.getElementById('nav-book-now');
+    const navBookNowMobile = document.getElementById('nav-book-now-mobile');
+    
+    const handleBookNowClick = (e) => {
+        e.preventDefault();
+        
+        // Check if user is logged in
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        
+        if (currentUser && currentUser.isLoggedIn) {
+            // User is logged in, redirect to booking page
+            window.location.href = 'booknow.html';
+        } else {
+            // User is not logged in, show message
+            showMessage('Please login to book', 'info');
+            // Optionally redirect to login page after a delay
+            setTimeout(() => {
+                window.location.href = 'login.html';
+            }, 2000);
+        }
+    };
+    
+    if (navBookNow) {
+        navBookNow.addEventListener('click', handleBookNowClick);
+    }
+    
+    if (navBookNowMobile) {
+        navBookNowMobile.addEventListener('click', handleBookNowClick);
     }
     
     // Initialize auth state on page load
