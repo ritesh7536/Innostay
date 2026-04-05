@@ -380,11 +380,11 @@
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="checkIn">Check-in Date *</label>
-                                <input type="date" id="checkIn" required>
+                                <input type="date" id="checkIn" required onchange="validateDatesOnchange()">
                             </div>
                             <div class="form-group">
                                 <label for="checkOut">Check-out Date *</label>
-                                <input type="date" id="checkOut" required>
+                                <input type="date" id="checkOut" required onchange="validateDatesOnchange()">
                             </div>
                         </div>
                         <div class="form-group">
@@ -902,6 +902,30 @@
         const today = new Date().toISOString().split('T')[0];
         document.getElementById('checkIn').min = today;
         document.getElementById('checkOut').min = today;
+
+        // Real-time date validation function
+        function validateDatesOnchange() {
+            const checkIn = document.getElementById('checkIn').value;
+            const checkOut = document.getElementById('checkOut').value;
+            
+            if (checkIn && checkOut) {
+                // Check if dates are the same
+                if (checkIn === checkOut) {
+                    showMessage('Check-in and check-out dates cannot be the same', 'error');
+                    // Clear the check-out date
+                    document.getElementById('checkOut').value = '';
+                    return;
+                }
+                
+                // Check if check-out is before or same as check-in
+                if (new Date(checkOut) <= new Date(checkIn)) {
+                    showMessage('Check-out date must be after check-in date', 'error');
+                    // Clear the check-out date
+                    document.getElementById('checkOut').value = '';
+                    return;
+                }
+            }
+        }
 
         // Pre-fill user data
         if (currentUser) {
