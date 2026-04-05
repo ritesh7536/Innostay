@@ -927,6 +927,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
             
+            // Check if dates are the same
+            if (checkin === checkout) {
+                showMessage('Check-in and check-out dates cannot be the same', 'error');
+                return;
+            }
+            
+            // Check if check-out is before or same as check-in
+            if (new Date(checkout) <= new Date(checkin)) {
+                showMessage('Check-out date must be after check-in date', 'error');
+                return;
+            }
+            
             // Redirect to booknow.html with query params
             const params = new URLSearchParams({
                 checkin,
