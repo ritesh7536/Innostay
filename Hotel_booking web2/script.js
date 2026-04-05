@@ -800,14 +800,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const handleBookNowClick = (e) => {
         e.preventDefault();
         
-        // Check if user is logged in
+        // Check if user is logged in - multiple checks for reliability
         const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+        const token = localStorage.getItem('token');
         
-        if (currentUser && currentUser.isLoggedIn) {
+        console.log('Book Now click - Auth check:', { currentUser, isLoggedIn, token });
+        
+        // Check multiple conditions for robust login verification
+        if ((currentUser && currentUser.isLoggedIn) || isLoggedIn || token) {
             // User is logged in, redirect to booking page
+            console.log('User is logged in, redirecting to booking page');
             window.location.href = 'booknow.html';
         } else {
             // User is not logged in, show message
+            console.log('User is not logged in, showing login message');
             showMessage('Please login to book', 'info');
             // Optionally redirect to login page after a delay
             setTimeout(() => {
