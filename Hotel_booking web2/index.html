@@ -19,14 +19,27 @@
                 <img src="./images/Innostay_logo-removebg-preview.png" alt="InnoStay Logo">
                 <span>InnoStay</span>
             </a>
+
+            <!-- Mobile Menu Toggle -->
+            <button class="mobile-menu-toggle" id="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
             
             <!-- Main Navigation Links (Center/Left) -->
-            <div class="main-nav">
+            <div class="main-nav" id="main-nav">
                 <a href="#home">Home</a>
                 <a href="#rooms">Rooms</a>
                 <a href="#amenities">Amenities</a>
                 <a href="#contact">Contact</a>
-                <a href="bookings.html" id="my-bookings-link" class="nav-link" style="display:none;">My Bookings</a>
+                <a href="bookings.html" id="my-bookings-link-mobile" class="nav-link" style="display:none;">My Bookings</a>
+                
+                <!-- Mobile specific actions -->
+                <div class="nav-actions-mobile">
+                    <a href="login.html" id="login-link-mobile" class="nav-link">Login</a>
+                    <a href="register.html" id="register-link-mobile" class="btn btn-primary">Register</a>
+                    <a href="booknow.html" id="nav-book-now-mobile" class="btn btn-primary" style="display:none;">Book Now</a>
+                    <a href="#" id="logout-mobile" class="nav-link" style="display:none; color: #dc3545;">Logout</a>
+                </div>
             </div>
 
             <!-- Action Buttons (Right) -->

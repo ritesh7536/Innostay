@@ -73,13 +73,13 @@ function renderBookings(bookings) {
     const subroomText = b.selectedSubroom ? ` (${b.selectedSubroom})` : '';
     
     tr.innerHTML = `
-      <td>${b._id ? b._id.slice(-8) : 'N/A'}</td>
-      <td>${roomName}${subroomText}</td>
-      <td>${b.checkIn ? new Date(b.checkIn).toDateString() : 'N/A'}</td>
-      <td>${b.checkOut ? new Date(b.checkOut).toDateString() : 'N/A'}</td>
-      <td>${b.totalPrice ? '₹' + b.totalPrice : 'N/A'}</td>
-      <td><span class="status ${statusClass}">${b.status}</span></td>
-      <td>
+      <td data-label="ID">${b._id ? b._id.slice(-8) : 'N/A'}</td>
+      <td data-label="Room">${roomName}${subroomText}</td>
+      <td data-label="Check-in">${b.checkIn ? new Date(b.checkIn).toDateString() : 'N/A'}</td>
+      <td data-label="Check-out">${b.checkOut ? new Date(b.checkOut).toDateString() : 'N/A'}</td>
+      <td data-label="Total">${b.totalPrice ? '₹' + b.totalPrice : 'N/A'}</td>
+      <td data-label="Status"><span class="status ${statusClass}">${b.status}</span></td>
+      <td data-label="Actions">
         <button class="btn btn-secondary" onclick="downloadPDF('${b._id}')">PDF</button>
         ${!b.isOffline && b.status === 'confirmed' ? `<button class="btn btn-danger" onclick="cancelBooking('${b._id}')">Cancel</button>` : ''}
         ${b.isOffline ? '<span class="badge bg-warning text-dark">Offline</span>' : ''}

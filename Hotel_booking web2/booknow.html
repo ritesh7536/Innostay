@@ -64,6 +64,25 @@
             gap: 0;
         }
 
+        @media (max-width: 992px) {
+            .booking-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .booking-summary {
+                border-left: none;
+                border-top: 1px solid var(--border-color);
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .booking-form-section, .booking-summary {
+                padding: 20px;
+            }
+        }
+
         .booking-form-section {
             padding: 40px;
         }

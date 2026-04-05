@@ -109,6 +109,32 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Mobile Menu Toggle logic
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    const mainNav = document.getElementById('main-nav');
+
+    if (mobileMenuToggle && mainNav) {
+        mobileMenuToggle.addEventListener('click', () => {
+            mainNav.classList.toggle('active');
+            const icon = mobileMenuToggle.querySelector('i');
+            if (mainNav.classList.contains('active')) {
+                icon.classList.replace('fa-bars', 'fa-times');
+            } else {
+                icon.classList.replace('fa-times', 'fa-bars');
+            }
+        });
+
+        // Close menu when clicking a link
+        const navLinks = mainNav.querySelectorAll('a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mainNav.classList.remove('active');
+                const icon = mobileMenuToggle.querySelector('i');
+                if (icon) icon.classList.replace('fa-times', 'fa-bars');
+            });
+        });
+    }
+
     // Test modal opening
     window.testModal = () => {
         console.log('Testing modal...');
@@ -692,6 +718,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const userProfile = document.getElementById('user-profile');
         const navBookNow = document.getElementById('nav-book-now');
         const myBookingsLink = document.getElementById('my-bookings-link');
+
+        // Mobile specific elements
+        const loginLinkMobile = document.getElementById('login-link-mobile');
+        const registerLinkMobile = document.getElementById('register-link-mobile');
+        const navBookNowMobile = document.getElementById('nav-book-now-mobile');
+        const myBookingsLinkMobile = document.getElementById('my-bookings-link-mobile');
+        const logoutMobile = document.getElementById('logout-mobile');
         
         // User Dropdown Elements
         const userMenuContainer = document.getElementById('user-menu-container');
@@ -701,14 +734,10 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if (isLoggedIn) {
             // User is logged in
-            if (loginLink) {
-                loginLink.classList.add('hidden');
-                loginLink.style.display = 'none'; // Force hide
-            }
-            if (registerLink) {
-                registerLink.classList.add('hidden');
-                registerLink.style.display = 'none'; // Force hide
-            }
+            if (loginLink) loginLink.style.display = 'none';
+            if (registerLink) registerLink.style.display = 'none';
+            if (loginLinkMobile) loginLinkMobile.style.display = 'none';
+            if (registerLinkMobile) registerLinkMobile.style.display = 'none';
             
             // Show User Menu Dropdown
             if (userMenuContainer) {
@@ -721,38 +750,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
-            // Hide legacy elements just in case
-            if (logoutLink) {
-                logoutLink.classList.remove('hidden');
-                logoutLink.style.display = 'none'; // Hide legacy logout
-            }
-            if (userDisplay) {
-                userDisplay.classList.remove('hidden');
-                userDisplay.style.display = 'none'; // Hide legacy display
-            }
+            if (userProfile) userProfile.style.display = 'flex';
+            if (navBookNow) navBookNow.style.display = 'inline-block';
+            if (myBookingsLink) myBookingsLink.style.display = 'inline-block';
+            
+            // Mobile shows
+            if (navBookNowMobile) navBookNowMobile.style.display = 'inline-block';
+            if (myBookingsLinkMobile) myBookingsLinkMobile.style.display = 'inline-block';
+            if (logoutMobile) logoutMobile.style.display = 'inline-block';
 
-            if (userProfile) {
-                userProfile.classList.remove('hidden');
-                userProfile.style.display = 'flex'; // Force show
-            }
-            if (navBookNow) {
-                navBookNow.classList.remove('hidden');
-                navBookNow.style.display = 'inline-block'; // Force show
-            }
-            if (myBookingsLink) {
-                myBookingsLink.classList.remove('hidden');
-                myBookingsLink.style.display = 'inline-block'; // Force show
-            }
         } else {
             // User is logged out
-            if (loginLink) {
-                loginLink.classList.remove('hidden');
-                loginLink.style.display = ''; // Reset to default
-            }
-            if (registerLink) {
-                registerLink.classList.remove('hidden');
-                registerLink.style.display = ''; // Reset to default
-            }
+            if (loginLink) loginLink.style.display = '';
+            if (registerLink) registerLink.style.display = '';
+            if (loginLinkMobile) loginLinkMobile.style.display = '';
+            if (registerLinkMobile) registerLinkMobile.style.display = '';
             
             // Hide User Menu Dropdown
             if (userMenuContainer) {
@@ -760,27 +772,29 @@ document.addEventListener('DOMContentLoaded', () => {
                 userMenuContainer.style.display = 'none';
             }
 
-            if (logoutLink) {
-                logoutLink.classList.add('hidden');
-                logoutLink.style.display = 'none'; // Force hide
-            }
-            if (userProfile) {
-                userProfile.classList.add('hidden');
-                userProfile.style.display = 'none'; // Force hide
-            }
-            if (navBookNow) {
-                navBookNow.classList.add('hidden');
-                navBookNow.style.display = 'none'; // Force hide
-            }
-            if (myBookingsLink) {
-                myBookingsLink.classList.add('hidden');
-                myBookingsLink.style.display = 'none'; // Force hide
-            }
-            if (userDisplay) {
-                userDisplay.classList.add('hidden');
-                userDisplay.style.display = 'none'; // Force hide
-            }
+            if (userProfile) userProfile.style.display = 'none';
+            if (navBookNow) navBookNow.style.display = 'none';
+            if (myBookingsLink) myBookingsLink.style.display = 'none';
+
+            // Mobile hides
+            if (navBookNowMobile) navBookNowMobile.style.display = 'none';
+            if (myBookingsLinkMobile) myBookingsLinkMobile.style.display = 'none';
+            if (logoutMobile) logoutMobile.style.display = 'none';
         }
+    }
+
+    // Handle Mobile Logout
+    const logoutMobile = document.getElementById('logout-mobile');
+    if (logoutMobile) {
+        logoutMobile.addEventListener('click', (e) => {
+            e.preventDefault();
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            localStorage.removeItem('currentUser');
+            localStorage.removeItem('isLoggedIn');
+            updateAuthUI(null);
+            showMessage('You have been logged out successfully.', 'success');
+        });
     }
     
     // Initialize auth state on page load
