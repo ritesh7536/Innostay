@@ -380,11 +380,11 @@
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="checkIn">Check-in Date *</label>
-                                <input type="date" id="checkIn" required onchange="validateDatesOnchange()">
+                                <input type="date" id="checkIn" required onchange="validateDatesOnchange()" oninput="validateDatesOnchange()">
                             </div>
                             <div class="form-group">
                                 <label for="checkOut">Check-out Date *</label>
-                                <input type="date" id="checkOut" required onchange="validateDatesOnchange()">
+                                <input type="date" id="checkOut" required onchange="validateDatesOnchange()" oninput="validateDatesOnchange()">
                             </div>
                         </div>
                         <div class="form-group">
@@ -905,23 +905,38 @@
 
         // Real-time date validation function
         function validateDatesOnchange() {
+            console.log('Validation function called');
             const checkIn = document.getElementById('checkIn').value;
             const checkOut = document.getElementById('checkOut').value;
+            
+            console.log('Check-in:', checkIn, 'Check-out:', checkOut);
             
             if (checkIn && checkOut) {
                 // Check if dates are the same
                 if (checkIn === checkOut) {
+                    console.log('Same date detected!');
+                    // Show immediate alert
+                    alert('Check-in and check-out dates cannot be the same!');
+                    // Also show message for consistency
                     showMessage('Check-in and check-out dates cannot be the same', 'error');
-                    // Clear the check-out date
-                    document.getElementById('checkOut').value = '';
+                    // Clear the check-out date after a short delay to allow user to see the alert
+                    setTimeout(() => {
+                        document.getElementById('checkOut').value = '';
+                    }, 100);
                     return;
                 }
                 
                 // Check if check-out is before or same as check-in
                 if (new Date(checkOut) <= new Date(checkIn)) {
+                    console.log('Invalid date range detected!');
+                    // Show immediate alert
+                    alert('Check-out date must be after check-in date!');
+                    // Also show message for consistency
                     showMessage('Check-out date must be after check-in date', 'error');
-                    // Clear the check-out date
-                    document.getElementById('checkOut').value = '';
+                    // Clear the check-out date after a short delay
+                    setTimeout(() => {
+                        document.getElementById('checkOut').value = '';
+                    }, 100);
                     return;
                 }
             }
