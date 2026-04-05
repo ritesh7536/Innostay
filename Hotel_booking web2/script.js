@@ -754,10 +754,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if (navBookNow) navBookNow.style.display = 'inline-block';
             if (myBookingsLink) myBookingsLink.style.display = 'inline-block';
             
-            // Mobile shows
-            if (navBookNowMobile) navBookNowMobile.style.display = 'inline-block';
-            if (myBookingsLinkMobile) myBookingsLinkMobile.style.display = 'inline-block';
-            if (logoutMobile) logoutMobile.style.display = 'inline-block';
+            // Mobile shows - only show on mobile screens
+            const isMobile = window.innerWidth <= 768;
+            if (navBookNowMobile) navBookNowMobile.style.display = isMobile ? 'inline-block' : 'none';
+            if (myBookingsLinkMobile) myBookingsLinkMobile.style.display = isMobile ? 'inline-block' : 'none';
+            if (logoutMobile) logoutMobile.style.display = isMobile ? 'inline-block' : 'none';
 
         } else {
             // User is logged out
@@ -776,7 +777,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (navBookNow) navBookNow.style.display = 'none';
             if (myBookingsLink) myBookingsLink.style.display = 'none';
 
-            // Mobile hides
+            // Mobile hides - ensure mobile elements are hidden on desktop
+            const isMobile = window.innerWidth <= 768;
             if (navBookNowMobile) navBookNowMobile.style.display = 'none';
             if (myBookingsLinkMobile) myBookingsLinkMobile.style.display = 'none';
             if (logoutMobile) logoutMobile.style.display = 'none';
@@ -1557,5 +1559,32 @@ if (adminRoomForm) {
 
     // Expose cancelBooking to the global scope if needed
     window.cancelBooking = cancelBooking;
+
+    // Handle window resize to ensure proper mobile/desktop navigation visibility
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            // Check if user is logged in and update navigation visibility
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            if (currentUser && currentUser.isLoggedIn) {
+                const isMobile = window.innerWidth <= 768;
+                const navBookNow = document.getElementById('nav-book-now');
+                const navBookNowMobile = document.getElementById('nav-book-now-mobile');
+                const myBookingsLink = document.getElementById('my-bookings-link');
+                const myBookingsLinkMobile = document.getElementById('my-bookings-link-mobile');
+                const logoutMobile = document.getElementById('logout-mobile');
+                
+                // Update desktop elements
+                if (navBookNow) navBookNow.style.display = isMobile ? 'none' : 'inline-block';
+                if (myBookingsLink) myBookingsLink.style.display = isMobile ? 'none' : 'inline-block';
+                
+                // Update mobile elements
+                if (navBookNowMobile) navBookNowMobile.style.display = isMobile ? 'inline-block' : 'none';
+                if (myBookingsLinkMobile) myBookingsLinkMobile.style.display = isMobile ? 'inline-block' : 'none';
+                if (logoutMobile) logoutMobile.style.display = isMobile ? 'inline-block' : 'none';
+            }
+        }, 250); // Debounce resize events
+    });
 
 }); // Close the DOMContentLoaded event listener
