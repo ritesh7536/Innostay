@@ -186,6 +186,11 @@ ul {
     color: var(--light-text);
 }
 
+/* Ensure btn-primary links also have white text */
+a.btn-primary {
+    color: var(--light-text) !important;
+}
+
 .btn-primary:hover {
     background-color: #1d4ed8; /* Slightly darker on hover */
 }
