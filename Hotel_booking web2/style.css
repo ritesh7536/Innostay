@@ -122,6 +122,11 @@ ul {
     color: #2563eb;
 }
 
+/* Hide mobile navigation elements on desktop */
+.nav-actions-mobile {
+    display: none;
+}
+
 /* Legacy Support for other pages */
 .nav-links {
     display: flex;
