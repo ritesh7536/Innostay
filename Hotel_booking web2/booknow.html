@@ -616,9 +616,15 @@
             const aadhaarInput = document.getElementById('aadhaarNumber');
             const aadhaarNumber = aadhaarInput.value;
             const messageDiv = document.getElementById('aadhaarMessage');
+            const phoneNumber = document.getElementById('phone').value;
 
             if (!/^\d{12}$/.test(aadhaarNumber)) {
                 messageDiv.innerHTML = '<span style="color: red;">Please enter a valid 12-digit Aadhaar number</span>';
+                return;
+            }
+
+            if (!phoneNumber) {
+                messageDiv.innerHTML = '<span style="color: red;">Please enter your phone number first</span>';
                 return;
             }
 
@@ -630,13 +636,16 @@
                 const response = await fetch(`${API_BASE}/api/verify/generate-otp`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ aadhaarNumber })
+                    body: JSON.stringify({ 
+                        aadhaarNumber,
+                        phoneNumber: phoneNumber // Send phone number to API
+                    })
                 });
 
                 const data = await response.json();
 
                 if (response.ok) {
-                    messageDiv.innerHTML = '<span style="color: green;">OTP sent! Check your console/terminal.</span>';
+                    messageDiv.innerHTML = `<span style="color: green;">OTP sent to ${phoneNumber}!</span>`;
                     document.getElementById('otpSection').style.display = 'block';
                     aadhaarInput.disabled = true;
                 } else {
@@ -646,7 +655,7 @@
                 }
             } catch (error) {
                 console.error('OTP Error:', error);
-                messageDiv.innerHTML = '<span style="color: red;">Failed to send OTP</span>';
+                messageDiv.innerHTML = '<span style="color: red;">Failed to send OTP. Please try again.</span>';
                 document.getElementById('sendOtpBtn').disabled = false;
                 document.getElementById('sendOtpBtn').textContent = 'Send OTP';
             }
@@ -946,6 +955,7 @@
         if (currentUser) {
             document.getElementById('fullName').value = currentUser.name || '';
             document.getElementById('email').value = currentUser.email || '';
+            document.getElementById('phone').value = currentUser.phone || '';
         }
 
         // Show message
