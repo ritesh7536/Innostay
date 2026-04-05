@@ -18,6 +18,53 @@ const transporter = nodemailer.createTransport({
     }
 });
 
+// SMS Service Function (using Fast2SMS for demo - replace with your preferred service)
+const sendSMSOTP = async (phoneNumber, otp) => {
+    try {
+        // For development/demo, log to console if no SMS service is configured
+        if (!process.env.FAST2SMS_API_KEY) {
+            console.log('----------------------------------------');
+            console.log(`[SMS SYSTEM] Fast2SMS API key not configured.`);
+            console.log(`[SMS SYSTEM] OTP for ${phoneNumber}: ${otp}`);
+            console.log('----------------------------------------');
+            console.log('To enable SMS:');
+            console.log('1. Sign up at Fast2SMS (https://www.fast2sms.com/)');
+            console.log('2. Get your API key');
+            console.log('3. Add FAST2SMS_API_KEY to your .env file');
+            console.log('----------------------------------------');
+            return true; // Simulate success for development
+        }
+
+        // Fast2SMS implementation (you can replace with Twilio, MSG91, etc.)
+        const axios = require('axios');
+        const response = await axios.post('https://www.fast2sms.com/dev/bulkV2', {
+            authorization: process.env.FAST2SMS_API_KEY,
+            route: 'v3',
+            sender_id: 'FTSMS',
+            message: `Your InnoStay verification code is: ${otp}. Valid for 5 minutes.`,
+            language: 'english',
+            flash: 0,
+            numbers: phoneNumber
+        });
+
+        if (response.data.return === true) {
+            console.log(`SMS sent successfully to ${phoneNumber}`);
+            return true;
+        } else {
+            console.error('SMS sending failed:', response.data);
+            return false;
+        }
+    } catch (error) {
+        console.error('SMS Error:', error);
+        // Fallback to console for development
+        console.log('----------------------------------------');
+        console.log(`[SMS SYSTEM] SMS send failed. Using console OTP.`);
+        console.log(`[SMS SYSTEM] OTP for ${phoneNumber}: ${otp}`);
+        console.log('----------------------------------------');
+        return true; // Treat as success in development mode
+    }
+};
+
 // Helper to send email
 const sendEmailOTP = async (email, otp) => {
     if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
@@ -60,11 +107,15 @@ const sendEmailOTP = async (email, otp) => {
     }
 };
 
-router.post('/generate-otp', (req, res) => {
-    const { aadhaarNumber } = req.body;
+router.post('/generate-otp', async (req, res) => {
+    const { aadhaarNumber, phoneNumber } = req.body;
     
     if (!aadhaarNumber || aadhaarNumber.length !== 12) {
         return res.status(400).json({ message: 'Invalid Aadhaar number' });
+    }
+
+    if (!phoneNumber) {
+        return res.status(400).json({ message: 'Phone number is required' });
     }
 
     // Generate 6-digit OTP
@@ -76,12 +127,23 @@ router.post('/generate-otp', (req, res) => {
         expires: Date.now() + 5 * 60 * 1000
     });
 
-    // Log to console as requested
-    console.log('----------------------------------------');
-    console.log(`[OTP SYSTEM] Generated OTP for Aadhaar ${aadhaarNumber}: ${otp}`);
-    console.log('----------------------------------------');
-
-    res.json({ message: 'OTP sent successfully', success: true });
+    // Send OTP via SMS
+    try {
+        const smsSent = await sendSMSOTP(phoneNumber, otp);
+        
+        if (smsSent) {
+            console.log('----------------------------------------');
+            console.log(`[OTP SYSTEM] Generated OTP for Aadhaar ${aadhaarNumber}: ${otp}`);
+            console.log(`[OTP SYSTEM] SMS sent to ${phoneNumber}`);
+            console.log('----------------------------------------');
+            res.json({ message: 'OTP sent successfully', success: true });
+        } else {
+            res.status(500).json({ message: 'Failed to send OTP SMS' });
+        }
+    } catch (error) {
+        console.error('OTP generation error:', error);
+        res.status(500).json({ message: 'Failed to generate OTP' });
+    }
 });
 
 router.post('/generate-email-otp', async (req, res) => {
