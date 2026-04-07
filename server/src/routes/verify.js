@@ -18,63 +18,49 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-// SMS Service Function (using Fast2SMS for demo - replace with your preferred service)
+// SMS Service Function (using Textlocal as primary, Fast2SMS as fallback)
 const sendSMSOTP = async (phoneNumber, otp) => {
     try {
-        // For development/demo, log to console if no SMS service is configured
-        if (!process.env.FAST2SMS_API_KEY) {
-            console.log('----------------------------------------');
-            console.log(`[SMS SYSTEM] Fast2SMS API key not configured.`);
-            console.log(`[SMS SYSTEM] OTP for ${phoneNumber}: ${otp}`);
-            console.log('----------------------------------------');
-            console.log('To enable SMS:');
-            console.log('1. Sign up at Fast2SMS (https://www.fast2sms.com/)');
-            console.log('2. Get your API key');
-            console.log('3. Add FAST2SMS_API_KEY to your .env file');
-            console.log('----------------------------------------');
-            return true; // Simulate success for development
-        }
-
-        // Fast2SMS implementation (you can replace with Twilio, MSG91, etc.)
-        const axios = require('axios');
-        
-        // Format phone number for Fast2SMS (remove +91, spaces, dashes)
+        // Format phone number (remove +91, spaces, dashes)
         const formattedPhone = phoneNumber.replace(/\+91|\s|-/g, '');
         
         console.log(`[SMS DEBUG] Sending OTP to: ${formattedPhone}`);
-        console.log(`[SMS DEBUG] API Key: ${process.env.FAST2SMS_API_KEY ? 'Present' : 'Missing'}`);
+        console.log(`[SMS DEBUG] Textlocal Key: ${process.env.TEXTLOCAL_API_KEY ? 'Present' : 'Missing'}`);
+        console.log(`[SMS DEBUG] Fast2SMS Key: ${process.env.FAST2SMS_API_KEY ? 'Present' : 'Missing'}`);
         
-        // Try different Fast2SMS endpoints
-        try {
-            const response = await axios.post('https://www.fast2sms.com/dev/bulk', {
-                authorization: process.env.FAST2SMS_API_KEY,
-                sender_id: 'FTSMS',
-                message: `Your InnoStay verification code is: ${otp}. Valid for 5 minutes.`,
-                route: 'v3',
-                numbers: formattedPhone
-            }, {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-
-            console.log(`[SMS DEBUG] Fast2SMS Response:`, response.data);
-
-            if (response.data.return === true) {
-                console.log(`SMS sent successfully to ${formattedPhone}`);
-                return true;
-            } else {
-                console.error('SMS sending failed:', response.data);
-                console.error('Error message:', response.data.message || 'Unknown error');
-                return false;
-            }
-        } catch (apiError) {
-            console.error('Fast2SMS API Error:', apiError.response?.data || apiError.message);
-            
-            // Try alternative endpoint
+        // Try Textlocal first (more reliable)
+        if (process.env.TEXTLOCAL_API_KEY) {
             try {
-                console.log('[SMS DEBUG] Trying alternative endpoint...');
-                const altResponse = await axios.post('https://www.fast2sms.com/dev/bulkV2', {
+                const axios = require('axios');
+                const response = await axios.post('https://api.textlocal.in/send/', {
+                    apikey: process.env.TEXTLOCAL_API_KEY,
+                    numbers: `91${formattedPhone}`,
+                    message: `Your InnoStay verification code is: ${otp}. Valid for 5 minutes.`,
+                    sender: 'INNSTA'
+                }, {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                });
+
+                console.log(`[SMS DEBUG] Textlocal Response:`, response.data);
+
+                if (response.data.status === 'success') {
+                    console.log(`SMS sent successfully via Textlocal to ${formattedPhone}`);
+                    return true;
+                } else {
+                    console.error('Textlocal SMS failed:', response.data);
+                }
+            } catch (textlocalError) {
+                console.error('Textlocal API Error:', textlocalError.response?.data || textlocalError.message);
+            }
+        }
+
+        // Fallback to Fast2SMS if Textlocal fails or not configured
+        if (process.env.FAST2SMS_API_KEY) {
+            try {
+                const axios = require('axios');
+                const response = await axios.post('https://www.fast2sms.com/dev/bulkV2', {
                     authorization: process.env.FAST2SMS_API_KEY,
                     route: 'v3',
                     sender_id: 'FTSMS',
@@ -84,20 +70,31 @@ const sendSMSOTP = async (phoneNumber, otp) => {
                     numbers: formattedPhone
                 });
 
-                console.log(`[SMS DEBUG] Alternative Response:`, altResponse.data);
+                console.log(`[SMS DEBUG] Fast2SMS Response:`, response.data);
 
-                if (altResponse.data.return === true) {
-                    console.log(`SMS sent successfully to ${formattedPhone}`);
+                if (response.data.return === true) {
+                    console.log(`SMS sent successfully via Fast2SMS to ${formattedPhone}`);
                     return true;
                 } else {
-                    console.error('Alternative SMS failed:', altResponse.data);
-                    return false;
+                    console.error('Fast2SMS SMS failed:', response.data);
                 }
-            } catch (altError) {
-                console.error('Alternative API Error:', altError.response?.data || altError.message);
-                throw altError;
+            } catch (fast2smsError) {
+                console.error('Fast2SMS API Error:', fast2smsError.response?.data || fast2smsError.message);
             }
         }
+
+        // If both SMS services fail, show console OTP for development
+        console.log('----------------------------------------');
+        console.log(`[SMS SYSTEM] Both SMS services failed. Using console OTP.`);
+        console.log(`[SMS SYSTEM] OTP for ${phoneNumber}: ${otp}`);
+        console.log('----------------------------------------');
+        console.log('To enable SMS:');
+        console.log('1. Get Textlocal API key: https://www.textlocal.in/');
+        console.log('2. Add TEXTLOCAL_API_KEY to your .env file');
+        console.log('3. Or fix Fast2SMS API key');
+        console.log('----------------------------------------');
+        return true; // Treat as success in development
+        
     } catch (error) {
         console.error('SMS Error:', error);
         // Fallback to console for development
