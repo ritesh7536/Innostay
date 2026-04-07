@@ -42,26 +42,61 @@ const sendSMSOTP = async (phoneNumber, otp) => {
         const formattedPhone = phoneNumber.replace(/\+91|\s|-/g, '');
         
         console.log(`[SMS DEBUG] Sending OTP to: ${formattedPhone}`);
+        console.log(`[SMS DEBUG] API Key: ${process.env.FAST2SMS_API_KEY ? 'Present' : 'Missing'}`);
         
-        const response = await axios.post('https://www.fast2sms.com/dev/bulkV2', {
-            authorization: process.env.FAST2SMS_API_KEY,
-            route: 'v3',
-            sender_id: 'FTSMS',
-            message: `Your InnoStay verification code is: ${otp}. Valid for 5 minutes.`,
-            language: 'english',
-            flash: 0,
-            numbers: formattedPhone
-        });
+        // Try different Fast2SMS endpoints
+        try {
+            const response = await axios.post('https://www.fast2sms.com/dev/bulk', {
+                authorization: process.env.FAST2SMS_API_KEY,
+                sender_id: 'FTSMS',
+                message: `Your InnoStay verification code is: ${otp}. Valid for 5 minutes.`,
+                route: 'v3',
+                numbers: formattedPhone
+            }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
 
-        console.log(`[SMS DEBUG] Fast2SMS Response:`, response.data);
+            console.log(`[SMS DEBUG] Fast2SMS Response:`, response.data);
 
-        if (response.data.return === true) {
-            console.log(`SMS sent successfully to ${formattedPhone}`);
-            return true;
-        } else {
-            console.error('SMS sending failed:', response.data);
-            console.error('Error message:', response.data.message || 'Unknown error');
-            return false;
+            if (response.data.return === true) {
+                console.log(`SMS sent successfully to ${formattedPhone}`);
+                return true;
+            } else {
+                console.error('SMS sending failed:', response.data);
+                console.error('Error message:', response.data.message || 'Unknown error');
+                return false;
+            }
+        } catch (apiError) {
+            console.error('Fast2SMS API Error:', apiError.response?.data || apiError.message);
+            
+            // Try alternative endpoint
+            try {
+                console.log('[SMS DEBUG] Trying alternative endpoint...');
+                const altResponse = await axios.post('https://www.fast2sms.com/dev/bulkV2', {
+                    authorization: process.env.FAST2SMS_API_KEY,
+                    route: 'v3',
+                    sender_id: 'FTSMS',
+                    message: `Your InnoStay verification code is: ${otp}. Valid for 5 minutes.`,
+                    language: 'english',
+                    flash: 0,
+                    numbers: formattedPhone
+                });
+
+                console.log(`[SMS DEBUG] Alternative Response:`, altResponse.data);
+
+                if (altResponse.data.return === true) {
+                    console.log(`SMS sent successfully to ${formattedPhone}`);
+                    return true;
+                } else {
+                    console.error('Alternative SMS failed:', altResponse.data);
+                    return false;
+                }
+            } catch (altError) {
+                console.error('Alternative API Error:', altError.response?.data || altError.message);
+                throw altError;
+            }
         }
     } catch (error) {
         console.error('SMS Error:', error);
@@ -152,6 +187,36 @@ router.post('/generate-otp', async (req, res) => {
     } catch (error) {
         console.error('OTP generation error:', error);
         res.status(500).json({ message: 'Failed to generate OTP' });
+    }
+});
+
+// Test endpoint to verify Fast2SMS API
+router.post('/test-sms', async (req, res) => {
+    const { phoneNumber } = req.body;
+    
+    if (!phoneNumber) {
+        return res.status(400).json({ message: 'Phone number is required' });
+    }
+
+    try {
+        const testOtp = '123456';
+        const smsSent = await sendSMSOTP(phoneNumber, testOtp);
+        
+        if (smsSent) {
+            res.json({ 
+                message: 'Test SMS sent successfully', 
+                success: true,
+                phoneNumber: phoneNumber
+            });
+        } else {
+            res.status(500).json({ message: 'Failed to send test SMS' });
+        }
+    } catch (error) {
+        console.error('Test SMS error:', error);
+        res.status(500).json({ 
+            message: 'Test SMS failed', 
+            error: error.message 
+        });
     }
 });
 
