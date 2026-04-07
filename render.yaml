@@ -30,4 +30,4 @@ services:
       - key: EMAIL_DEV_MODE
         value: "false"
       - key: FAST2SMS_API_KEY
-        sync: false
+        value: "MFYqEqYjFzT8SvP763vGdna1LGJk3jNl111sxcclK5A2jfev9aAasBnlk4Pi"

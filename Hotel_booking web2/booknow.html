@@ -618,6 +618,10 @@
             const messageDiv = document.getElementById('aadhaarMessage');
             const phoneNumber = document.getElementById('phone').value;
 
+            console.log('[FRONTEND DEBUG] Aadhaar:', aadhaarNumber);
+            console.log('[FRONTEND DEBUG] Phone:', phoneNumber);
+            console.log('[FRONTEND DEBUG] Phone element value:', document.getElementById('phone').value);
+
             if (!/^\d{12}$/.test(aadhaarNumber)) {
                 messageDiv.innerHTML = '<span style="color: red;">Please enter a valid 12-digit Aadhaar number</span>';
                 return;

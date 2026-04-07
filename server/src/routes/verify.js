@@ -154,11 +154,15 @@ const sendEmailOTP = async (email, otp) => {
 router.post('/generate-otp', async (req, res) => {
     const { aadhaarNumber, phoneNumber } = req.body;
     
+    console.log(`[DEBUG] Request body:`, req.body);
+    console.log(`[DEBUG] Aadhaar: ${aadhaarNumber}, Phone: ${phoneNumber}`);
+    
     if (!aadhaarNumber || aadhaarNumber.length !== 12) {
         return res.status(400).json({ message: 'Invalid Aadhaar number' });
     }
 
     if (!phoneNumber) {
+        console.log(`[DEBUG] Phone number is missing or empty`);
         return res.status(400).json({ message: 'Phone number is required' });
     }
 
@@ -173,6 +177,7 @@ router.post('/generate-otp', async (req, res) => {
 
     // Send OTP via SMS
     try {
+        console.log(`[DEBUG] About to send SMS to ${phoneNumber}`);
         const smsSent = await sendSMSOTP(phoneNumber, otp);
         
         if (smsSent) {
@@ -182,6 +187,7 @@ router.post('/generate-otp', async (req, res) => {
             console.log('----------------------------------------');
             res.json({ message: 'OTP sent successfully', success: true });
         } else {
+            console.log(`[DEBUG] SMS sending returned false`);
             res.status(500).json({ message: 'Failed to send OTP SMS' });
         }
     } catch (error) {
