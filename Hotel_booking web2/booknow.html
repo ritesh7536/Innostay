@@ -407,7 +407,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="phone">Phone Number *</label>
-                                <input type="tel" id="phone" placeholder="+1234567890" required>
+                                <input type="tel" id="phone" placeholder="+917709903710 or 7709903710" required>
                             </div>
                         </div>
                     </div>
@@ -629,6 +629,13 @@
 
             if (!phoneNumber) {
                 messageDiv.innerHTML = '<span style="color: red;">Please enter your phone number first</span>';
+                return;
+            }
+
+            // Validate phone number format (basic validation)
+            const cleanPhone = phoneNumber.replace(/\+91|\s|-/g, '');
+            if (!/^\d{10}$/.test(cleanPhone)) {
+                messageDiv.innerHTML = '<span style="color: red;">Please enter a valid 10-digit phone number</span>';
                 return;
             }
 
