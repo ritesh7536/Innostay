@@ -37,6 +37,12 @@ const sendSMSOTP = async (phoneNumber, otp) => {
 
         // Fast2SMS implementation (you can replace with Twilio, MSG91, etc.)
         const axios = require('axios');
+        
+        // Format phone number for Fast2SMS (remove +91, spaces, dashes)
+        const formattedPhone = phoneNumber.replace(/\+91|\s|-/g, '');
+        
+        console.log(`[SMS DEBUG] Sending OTP to: ${formattedPhone}`);
+        
         const response = await axios.post('https://www.fast2sms.com/dev/bulkV2', {
             authorization: process.env.FAST2SMS_API_KEY,
             route: 'v3',
@@ -44,14 +50,17 @@ const sendSMSOTP = async (phoneNumber, otp) => {
             message: `Your InnoStay verification code is: ${otp}. Valid for 5 minutes.`,
             language: 'english',
             flash: 0,
-            numbers: phoneNumber
+            numbers: formattedPhone
         });
 
+        console.log(`[SMS DEBUG] Fast2SMS Response:`, response.data);
+
         if (response.data.return === true) {
-            console.log(`SMS sent successfully to ${phoneNumber}`);
+            console.log(`SMS sent successfully to ${formattedPhone}`);
             return true;
         } else {
             console.error('SMS sending failed:', response.data);
+            console.error('Error message:', response.data.message || 'Unknown error');
             return false;
         }
     } catch (error) {
